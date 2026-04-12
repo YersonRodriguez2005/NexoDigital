@@ -401,18 +401,17 @@ const NavBar = () => {
             </a>
           ))}
           <div className="mobile-divider" />
-          <button
+          <a
+            href="#soluciones"
             className="cta-btn mobile-cta"
-            onClick={() => {
-              setIsOpen(false);
-              window.location.href = "#soluciones";
-            }}
+            style={{ textDecoration: 'none' }}
+            onClick={() => setIsOpen(false)}
           >
             <span>Agendar Asesoría</span>
             <svg className="cta-arrow" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </button>
+          </a>
         </div>
       </nav>
     </>

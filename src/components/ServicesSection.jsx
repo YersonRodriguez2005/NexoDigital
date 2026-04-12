@@ -618,13 +618,13 @@ const ServicesSection = () => {
               ¿No sabes qué solución necesitas?{' '}
               <strong>Te asesoramos gratis.</strong>
             </p>
-            <button className="svs-cta-btn">
+            <a href="#soluciones" className="svs-cta-btn" style={{ textDecoration: 'none' }}>
               <span>Hablar con un experto</span>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor"
                   strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </button>
+            </a>
             <div className="svs-divider" />
           </div>
         </div>

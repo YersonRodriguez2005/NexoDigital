@@ -629,13 +629,13 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="cta-group">
-              <button className="btn-primary">
+              <a href="#soluciones" className="btn-primary" style={{ textDecoration: 'none' }}>
                 <span>Cotizar mi Proyecto</span>
                 <svg className="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M1 8H15M8 1L15 8L8 15" stroke="currentColor" strokeWidth="1.75"
                     strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </button>
+              </a>
             </div>
 
             {/* Social Proof */}
