@@ -121,19 +121,9 @@ const ServicesSection = () => {
           to   { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes svsFadeIn {
-          from { opacity: 0; }
-          to   { opacity: 1; }
-        }
-
         @keyframes svsLineGrow {
           from { transform: scaleX(0); }
           to   { transform: scaleX(1); }
-        }
-
-        @keyframes svsCounterDash {
-          from { stroke-dashoffset: 88; }
-          to   { stroke-dashoffset: 0; }
         }
 
         .svs-section {
@@ -433,88 +423,6 @@ const ServicesSection = () => {
           font-weight: 500;
         }
 
-        /* ── Arrow link ── */
-        .card-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #2563EB;
-          text-decoration: none;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-          opacity: 0;
-          transform: translateX(-4px);
-          transition: opacity 0.25s, transform 0.25s;
-        }
-
-        .svs-card:hover .card-link {
-          opacity: 1;
-          transform: translateX(0);
-        }
-
-        .card-link svg {
-          transition: transform 0.2s;
-        }
-
-        .card-link:hover svg {
-          transform: translateX(3px);
-        }
-
-        /* ── Bottom CTA strip ── */
-        .svs-bottom {
-          margin-top: 64px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 20px;
-          animation: ${inView ? 'svsFadeUp 0.6s 600ms both' : 'none'};
-        }
-
-        .svs-divider {
-          width: 48px;
-          height: 1px;
-          background: #cbd5e1;
-        }
-
-        .svs-cta-text {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.9375rem;
-          color: #64748b;
-        }
-
-        .svs-cta-text strong {
-          color: #0F172A;
-          font-weight: 700;
-        }
-
-        .svs-cta-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 0.75rem 1.5rem;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.8125rem;
-          font-weight: 700;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-          color: #fff;
-          background: #2563EB;
-          border: none;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: transform 0.2s, box-shadow 0.2s;
-          box-shadow: 0 4px 16px rgba(37,99,235,0.35);
-          white-space: nowrap;
-        }
-
-        .svs-cta-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(37,99,235,0.45);
-        }
-
         /* ── Responsive ── */
         @media (max-width: 1024px) {
           .svs-grid {
@@ -525,11 +433,6 @@ const ServicesSection = () => {
         @media (max-width: 640px) {
           .svs-section { padding: 80px 1.5rem; }
           .svs-grid { grid-template-columns: 1fr; }
-          .svs-bottom {
-            flex-direction: column;
-            text-align: center;
-          }
-          .svs-divider { display: none; }
         }
       `}</style>
 
@@ -553,6 +456,7 @@ const ServicesSection = () => {
             <p className="svs-subtitle">
               No adaptes tu negocio a un software genérico. Construimos herramientas
               exactas para los flujos de trabajo de tu empresa en el Huila.
+              Busca mejorar tu vida personal con mas productividad con tu propia app.
             </p>
           </div>
 
@@ -597,35 +501,9 @@ const ServicesSection = () => {
                     </div>
                     <span className="metric-label">{service.metric.label}</span>
                   </div>
-
-                  {/* Hover link */}
-                  <a href="#soluciones" className="card-link">
-                    Ver más detalles
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor"
-                        strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </a>
                 </div>
               );
             })}
-          </div>
-
-          {/* Bottom CTA strip */}
-          <div className="svs-bottom">
-            <div className="svs-divider" />
-            <p className="svs-cta-text">
-              ¿No sabes qué solución necesitas?{' '}
-              <strong>Te asesoramos gratis.</strong>
-            </p>
-            <a href="#soluciones" className="svs-cta-btn" style={{ textDecoration: 'none' }}>
-              <span>Hablar con un experto</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor"
-                  strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
-            <div className="svs-divider" />
           </div>
         </div>
       </section>

@@ -1,25 +1,42 @@
 <!doctype html>
-<html lang="es-CO"> <head>
+<html lang="es-CO">
+  <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="assets/Logo1.png" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <title>Nexo Digital | Desarrollo de Software a la Medida en Neiva</title>
-    
-    <meta name="description" content="Nexo Digital es una agencia de desarrollo de software en Neiva, Huila. Creamos plataformas web, sistemas de gestión empresariales y aplicaciones a la medida." />
-    
-    <meta name="keywords" content="desarrollo de software Neiva, programador Huila, desarrollo web Colombia, sistemas de gestión, plataformas web a la medida, software para empresas, Nexo Digital" />
-    
-    <meta name="author" content="Nexo Digital" />
+    <!-- MENTOR TIP: En Vite, los assets de index.html deben estar en la carpeta 'public' y llamarse con ruta absoluta '/' -->
+    <link rel="icon" type="image/png" href="/assets/Logo1.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#070E1E" />
 
+    <!-- ─── Basic SEO ─── -->
+    <title>Nexo Digital | Desarrollo de Software a la Medida en Neiva</title>
+    <meta name="description" content="Nexo Digital es una agencia de desarrollo de software en Neiva, Huila. Creamos plataformas web, sistemas de gestión empresariales y aplicaciones a la medida." />
+    <meta name="keywords" content="desarrollo de software Neiva, programador Huila, desarrollo web Colombia, sistemas de gestión, plataformas web a la medida, software para empresas, Nexo Digital" />
+    <meta name="author" content="Nexo Digital" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://nexo-digital-neiva.vercel.app/" />
+
+    <!-- ─── Open Graph (Facebook, LinkedIn, WhatsApp) ─── -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nexo-digital-neiva.vercel.app/" />
     <meta property="og:title" content="Nexo Digital | Soluciones Tecnológicas en Neiva" />
     <meta property="og:description" content="Automatizamos la gestión de tu empresa con plataformas y sistemas a la medida en el Huila." />
+    <!-- MENTOR TIP: Crea una imagen de 1200x630px con tu logo para que se vea genial al compartir tu link -->
+    <meta property="og:image" content="https://nexo-digital-neiva.vercel.app/assets/og-image.png" />
 
+    <!-- ─── Twitter Cards ─── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://nexo-digital-neiva.vercel.app/" />
+    <meta name="twitter:title" content="Nexo Digital | Soluciones Tecnológicas en Neiva" />
+    <meta name="twitter:description" content="Automatizamos la gestión de tu empresa con plataformas y sistemas a la medida en el Huila." />
+    <meta name="twitter:image" content="https://nexo-digital-neiva.vercel.app/assets/og-image.png" />
+
+    <!-- ─── Fonts ─── -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
-
   </head>
+  
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>

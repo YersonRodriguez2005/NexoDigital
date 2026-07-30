@@ -91,11 +91,6 @@ const HeroSection = () => {
           to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
         @keyframes scaleIn {
           from { opacity: 0; transform: scale(0.96) translateY(12px); }
           to { opacity: 1; transform: scale(1) translateY(0); }
@@ -126,11 +121,6 @@ const HeroSection = () => {
           20% { opacity: 0.6; }
           80% { opacity: 0.6; }
           100% { transform: translateY(400%); opacity: 0; }
-        }
-
-        @keyframes dashRotate {
-          from { stroke-dashoffset: 200; }
-          to { stroke-dashoffset: 0; }
         }
 
         .hero-section {
@@ -310,86 +300,6 @@ const HeroSection = () => {
           transform: translateX(4px);
         }
 
-        .btn-secondary {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          padding: 0.875rem 1.75rem;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.875rem;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          color: #94a3b8;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(148, 163, 184, 0.15);
-          border-radius: 12px;
-          cursor: pointer;
-          transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
-          text-transform: uppercase;
-        }
-
-        .btn-secondary:hover {
-          color: #e2e8f0;
-          border-color: rgba(148, 163, 184, 0.3);
-          background: rgba(255,255,255,0.06);
-          transform: translateY(-2px);
-        }
-
-        .play-icon {
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          background: rgba(16, 185, 129, 0.12);
-          border: 1px solid rgba(16, 185, 129, 0.25);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-
-        /* SOCIAL PROOF ROW */
-        .social-proof {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          animation: ${visible ? 'fadeUp 0.7s 400ms both' : 'none'};
-        }
-
-        .avatar-stack {
-          display: flex;
-          align-items: center;
-        }
-
-        .avatar {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          border: 2px solid #070E1E;
-          margin-left: -8px;
-          overflow: hidden;
-          background: #1e293b;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 700;
-          color: #94a3b8;
-        }
-
-        .avatar:first-child { margin-left: 0; }
-
-        .proof-text {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.8125rem;
-          color: #4a5568;
-        }
-
-        .proof-text strong {
-          color: #64748b;
-          font-weight: 600;
-        }
-
         /* STATS ROW */
         .stats-row {
           display: flex;
@@ -457,13 +367,6 @@ const HeroSection = () => {
           font-family: 'Inter', sans-serif;
           font-size: 0.6rem;
           color: #4a5568;
-        }
-
-        .mockup-img {
-          width: 100%;
-          aspect-ratio: 16/10;
-          object-fit: cover;
-          display: block;
         }
 
         /* Scanline effect */
@@ -580,7 +483,7 @@ const HeroSection = () => {
 
         @media (max-width: 480px) {
           .cta-group { flex-direction: column; }
-          .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+          .btn-primary { width: 100%; justify-content: center; }
         }
       `}</style>
 
@@ -614,9 +517,7 @@ const HeroSection = () => {
 
             {/* H1 */}
             <h1 className="hero-h1">
-              Automatizamos la{' '}
-              <span className="accent">gestión</span>
-              {' '}de tu empresa con Software a la medida
+              Automatizamos la <span className="accent">gestión</span> con software a tu medida
             </h1>
 
             {/* Body */}
@@ -624,34 +525,18 @@ const HeroSection = () => {
               Deja de perder tiempo en procesos manuales y hojas de cálculo. En{' '}
               <strong>Nexo Digital</strong> construimos plataformas, sistemas embebidos
               y herramientas de automatización que centralizan tu operación y aceleran
-              tu crecimiento comercial.
+              tu crecimiento <strong>comercial y personal</strong>
             </p>
 
             {/* CTA Buttons */}
             <div className="cta-group">
-              <a href="#soluciones" className="btn-primary" style={{ textDecoration: 'none' }}>
-                <span>Cotizar mi Proyecto</span>
+              <a href="#productos" className="btn-primary" style={{ textDecoration: 'none' }}>
+                <span>¡Compra tu software!</span>
                 <svg className="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M1 8H15M8 1L15 8L8 15" stroke="currentColor" strokeWidth="1.75"
-                    strokeLinecap="round" strokeLinejoin="round"/>
+                    strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
-            </div>
-
-            {/* Social Proof */}
-            <div className="social-proof">
-              <div className="avatar-stack">
-                {['PS', 'SF', 'ST', 'VS'].map((initials, i) => (
-                  <div className="avatar" key={i} style={{
-                    background: `hsl(${210 + i * 20}, 30%, 20%)`,
-                  }}>
-                    {initials}
-                  </div>
-                ))}
-              </div>
-              <p className="proof-text">
-                <strong>Empresas del Huila</strong> ya digitalizaron su operación con nosotros
-              </p>
             </div>
 
             {/* Stats */}
@@ -678,7 +563,7 @@ const HeroSection = () => {
               <div className="metric-icon" style={{ background: 'rgba(16,185,129,0.12)' }}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M1 10L5 6L8 9L13 3" stroke="#10B981" strokeWidth="1.75"
-                    strokeLinecap="round" strokeLinejoin="round"/>
+                    strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
               <div>
@@ -690,8 +575,8 @@ const HeroSection = () => {
             <div className="metric-card bottom-right">
               <div className="metric-icon" style={{ background: 'rgba(37,99,235,0.12)' }}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <circle cx="7" cy="7" r="5.5" stroke="#2563EB" strokeWidth="1.5"/>
-                  <path d="M7 4V7L9 9" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round"/>
+                  <circle cx="7" cy="7" r="5.5" stroke="#2563EB" strokeWidth="1.5" />
+                  <path d="M7 4V7L9 9" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </div>
               <div>
@@ -709,7 +594,7 @@ const HeroSection = () => {
                 <div className="chrome-dot" style={{ background: '#28c840' }} />
                 <div className="chrome-urlbar">
                   <svg width="8" height="9" viewBox="0 0 8 9" fill="none">
-                    <path d="M1 4H7M4 1L7 4L4 7" stroke="#4a5568" strokeWidth="1" strokeLinecap="round"/>
+                    <path d="M1 4H7M4 1L7 4L4 7" stroke="#4a5568" strokeWidth="1" strokeLinecap="round" />
                   </svg>
                   <span className="chrome-url-text">app.nexodigital.co/dashboard</span>
                 </div>
@@ -730,7 +615,7 @@ const HeroSection = () => {
                 <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.08 }}>
                   <defs>
                     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2563EB" strokeWidth="0.5"/>
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2563EB" strokeWidth="0.5" />
                     </pattern>
                   </defs>
                   <rect width="100%" height="100%" fill="url(#grid)" />
@@ -756,10 +641,10 @@ const HeroSection = () => {
                     background: 'rgba(37,99,235,0.1)',
                   }}>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <rect x="2" y="2" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.6"/>
-                      <rect x="11" y="2" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.4"/>
-                      <rect x="2" y="11" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.4"/>
-                      <rect x="11" y="11" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.3"/>
+                      <rect x="2" y="2" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.6" />
+                      <rect x="11" y="2" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.4" />
+                      <rect x="2" y="11" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.4" />
+                      <rect x="11" y="11" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.3" />
                     </svg>
                   </div>
                   <span style={{

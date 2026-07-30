@@ -47,12 +47,12 @@ const MailIcon = () => (
 const NAV_LINKS = [
   { href: '#servicios', label: 'Nuestros Servicios' },
   { href: '#portafolio', label: 'Casos de Éxito' },
-  { href: '#soluciones', label: 'Contacto y Soluciones' },
+  { href: '#productos', label: 'Comprar Software' },
 ];
 
 const SOCIAL_LINKS = [
   {
-    href: 'www.linkedin.com/in/yerson-rodriguez',
+    href: 'https://www.linkedin.com/in/yerson-rodriguez', // Agregué https:// por buena práctica
     label: 'LinkedIn',
     icon: <LinkedInIcon />,
     color: '#0077b5',
@@ -201,73 +201,6 @@ const Footer = () => {
           max-width: 1280px;
           margin: 0 auto;
           padding: 80px 2rem 0;
-        }
-
-        /* ── CTA Banner ── */
-        .ft-cta-banner {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 2rem;
-          padding: 2rem 2.5rem;
-          background: rgba(37,99,235,0.07);
-          border: 1px solid rgba(37,99,235,0.18);
-          border-radius: 20px;
-          margin-bottom: 72px;
-          animation: ${inView ? 'ftFadeUp 0.6s 0ms both' : 'none'};
-          position: relative;
-          overflow: hidden;
-        }
-
-        .ft-cta-banner::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(37,99,235,0.5), transparent);
-        }
-
-        .ft-cta-banner-left h3 {
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 800;
-          font-size: 1.125rem;
-          color: #fff;
-          letter-spacing: -0.03em;
-          margin: 0 0 4px;
-        }
-
-        .ft-cta-banner-left p {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.875rem;
-          color: #64748b;
-          margin: 0;
-        }
-
-        .ft-cta-banner-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 0.75rem 1.5rem;
-          background: #2563EB;
-          color: #fff;
-          border: none;
-          border-radius: 12px;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.8125rem;
-          font-weight: 700;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-          text-decoration: none;
-          cursor: pointer;
-          transition: transform 0.2s, box-shadow 0.2s;
-          box-shadow: 0 4px 16px rgba(37,99,235,0.35);
-          white-space: nowrap;
-          flex-shrink: 0;
-        }
-
-        .ft-cta-banner-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(37,99,235,0.45);
         }
 
         /* ── Grid ── */
@@ -508,7 +441,6 @@ const Footer = () => {
             gap: 2.5rem;
           }
           .ft-brand { grid-column: 1 / -1; }
-          .ft-cta-banner { flex-direction: column; align-items: flex-start; }
         }
 
         @media (max-width: 580px) {
@@ -523,21 +455,6 @@ const Footer = () => {
 
         <div className="ft-inner">
 
-          {/* ── CTA Banner ── */}
-          <div className="ft-cta-banner">
-            <div className="ft-cta-banner-left">
-              <h3>¿Listo para digitalizar tu empresa?</h3>
-              <p>Hablemos sobre tu proyecto. Primera consulta siempre sin costo.</p>
-            </div>
-            <a href="#soluciones" className="ft-cta-banner-btn">
-              <span>Agendar asesoría</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor"
-                  strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
-          </div>
-
           {/* ── Grid ── */}
           <div className="ft-grid">
 
@@ -551,9 +468,9 @@ const Footer = () => {
               </a>
 
               <p className="ft-brand-desc">
-                Desarrollo de software a la medida, plataformas web y sistemas
-                de gestión para empresas en Neiva y toda Colombia.
-                Transformamos procesos en ventajas competitivas.
+                Desarrollo de software a la medida, plataformas web apps moviles y sistemas
+                de gestión para empresas y vida personal en Neiva y toda Colombia.
+                Transformamos procesos en ventajas competitivas y de mejora personal.
               </p>
 
               <div className="ft-tech-tags">
@@ -614,7 +531,6 @@ const Footer = () => {
               <span>por <a href="https://github.com/YersonRodriguez2005" target="_blank" rel="noopener noreferrer">Yerson Rodriguez</a></span>
             </div>
           </div>
-
         </div>
       </footer>
     </>

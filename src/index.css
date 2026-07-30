@@ -2,7 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Configuraciones Globales ─── */
+html {
+  /* Scroll suave nativo para toda la aplicación */
+  scroll-behavior: smooth;
+  /* Espacio para que el NavBar fijo no tape los títulos al hacer scroll */
+  scroll-padding-top: 80px; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  background-color: #0F172A;
+  /* Fondo oscuro principal que usas en casi todas las secciones */
+  background-color: #070E1E; 
   color: #F8FAFC;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar Personalizada ─── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #070E1E;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3a6e;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2563EB;
+}
+
+/* ─── Color de Selección de Texto ─── */
+::selection {
+  background: rgba(37, 99, 235, 0.35);
+  color: #fff;
 }
