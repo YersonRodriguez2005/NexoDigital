@@ -8,7 +8,7 @@ const TermsBanner = () => {
   useEffect(() => {
     // Verificamos si ya aceptó los términos
     const hasAccepted = localStorage.getItem('nexo_terms_accepted');
-    
+
     if (!hasAccepted) {
       const timer = setTimeout(() => {
         setIsVisible(true);
@@ -229,7 +229,7 @@ const TermsBanner = () => {
       {isVisible && !showModal && (
         <div className="tb-overlay">
           <p className="tb-text">
-            Utilizamos cookies y tecnologías similares para mejorar tu experiencia en Nexo Digital. 
+            Utilizamos cookies y tecnologías similares para mejorar tu experiencia en Nexo Digital.
             Al continuar navegando o adquirir nuestros servicios, aceptas nuestros{' '}
             <button className="link-btn" onClick={openTerms}>
               Términos, Condiciones y Políticas de Privacidad
@@ -245,7 +245,7 @@ const TermsBanner = () => {
       {showModal && (
         <div className="tm-backdrop" onClick={() => setShowModal(false)}>
           <div className="tm-modal" onClick={(e) => e.stopPropagation()}>
-            
+
             <div className="tm-header">
               <h3>Políticas y Términos Legales</h3>
               <button className="tm-close" onClick={() => setShowModal(false)}>
@@ -255,38 +255,43 @@ const TermsBanner = () => {
 
             <div className="tm-body">
               <p>Última actualización: <strong>{new Date().toLocaleDateString('es-CO')}</strong></p>
-              
+
               <h4>1. Aceptación de los Términos</h4>
               <p>Al acceder y utilizar el sitio web de Nexo Digital, usted acepta estar sujeto a estos Términos y Condiciones, así como a todas las leyes y regulaciones aplicables en el territorio colombiano. Si no está de acuerdo con alguno de estos términos, tiene prohibido utilizar o acceder a este sitio.</p>
 
-              <h4>2. Uso de Licencias de Software (Modelo SaaS)</h4>
-              <p>Al adquirir una solución de software de nuestro catálogo, el usuario acepta que:</p>
+              <h4>2. Uso de Licencias de Software Web (Modelo SaaS)</h4>
+              <p>Al adquirir una solución de software web de nuestro catálogo, el usuario acepta que:</p>
               <ul>
                 <li>El pago inicial corresponde a la configuración, parametrización y puesta en marcha del software (Setup).</li>
-                <li>El pago de la cuota mensual (ej. $35.000 COP) cubre los costos de servidor en la nube (Hosting), mantenimiento de bases de datos y soporte técnico estándar.</li>
+                <li>El pago de la cuota mensual cubre los costos de servidor en la nube (Hosting), mantenimiento de bases de datos y soporte técnico estándar.</li>
                 <li>El incumplimiento en el pago de la cuota mensual después de 5 días hábiles de la fecha de corte puede resultar en la suspensión temporal del servicio.</li>
-                <li>El código fuente de las plataformas en modelo SaaS es propiedad intelectual de Nexo Digital, otorgando al cliente una licencia de uso intransferible mientras el servicio esté activo.</li>
+                <li>El código fuente de las plataformas es propiedad intelectual de Nexo Digital, otorgando al cliente una licencia de uso intransferible mientras el servicio esté activo.</li>
               </ul>
 
-              <h4>3. Política de Privacidad y Manejo de Datos</h4>
+              {/* MENTOR TIP: Nueva cláusula legal agregada para proteger la distribución de tus APKs */}
+              <h4>3. Aplicaciones Móviles y Descarga de Archivos (APK)</h4>
+              <p>Para las soluciones distribuidas como aplicaciones móviles instalables (archivos .APK) fuera de tiendas oficiales, el usuario comprende y acepta que:</p>
+              <ul>
+                <li>La instalación del archivo APK se realiza bajo su propia responsabilidad, requiriendo habilitar la opción de "Orígenes desconocidos" o "Instalar aplicaciones desconocidas" en su dispositivo móvil.</li>
+                <li>Nexo Digital garantiza que los archivos suministrados directamente desde nuestros servidores o repositorios oficiales están libres de software malicioso.</li>
+                <li>Nexo Digital no se hace responsable por el mal funcionamiento derivado de incompatibilidades de hardware, sistemas operativos desactualizados o modificaciones hechas al archivo original por terceros.</li>
+                <li>Las actualizaciones de estas aplicaciones pueden requerir la descarga e instalación manual de nuevas versiones del archivo suministrado por nuestro equipo.</li>
+              </ul>
+
+              <h4>4. Política de Privacidad y Manejo de Datos</h4>
               <p>En cumplimiento con la Ley 1581 de 2012 (Ley de Protección de Datos Personales en Colombia), garantizamos que:</p>
               <ul>
-                <li>Los datos ingresados en nuestros formularios (nombre, empresa, teléfono) serán utilizados exclusivamente para contacto comercial y envío de cotizaciones.</li>
-                <li>No compartimos, vendemos ni alquilamos bases de datos a terceros bajo ninguna circunstancia.</li>
-                <li>Las bases de datos gestionadas a través del software adquirido por el cliente son propiedad exclusiva del cliente. Nexo Digital actúa únicamente como encargado del tratamiento para fines de alojamiento y respaldo (Backups).</li>
+                <li>Los datos ingresados en nuestros canales serán utilizados exclusivamente para contacto comercial. No compartimos ni vendemos bases de datos a terceros.</li>
+                <li>Las bases de datos gestionadas a través del software adquirido son propiedad exclusiva del cliente. Nexo Digital actúa únicamente como encargado del tratamiento para fines de alojamiento y respaldo.</li>
               </ul>
 
-              <h4>4. Cookies</h4>
-              <p>Este sitio web utiliza "cookies" para mejorar la experiencia del usuario (por ejemplo, recordar si ya cerró este aviso o guardar preferencias de sesión). Usted puede configurar su navegador para rechazar todas las cookies, sin embargo, algunas funciones del sitio pueden no funcionar correctamente.</p>
-
               <h4>5. Modificaciones</h4>
-              <p>Nexo Digital puede revisar y actualizar estos términos de servicio en cualquier momento sin previo aviso. Al utilizar este sitio web, usted acepta estar sujeto a la versión actual de estos Términos y Condiciones.</p>
-              
+              <p>Nexo Digital puede revisar y actualizar estos términos en cualquier momento sin previo aviso. Al utilizar nuestros servicios, usted acepta estar sujeto a la versión actual de estos Términos y Condiciones.</p>
+
               <p style={{ marginTop: '2rem', textAlign: 'center', fontSize: '0.8rem', color: '#64748b' }}>
                 Para dudas o consultas legales, contáctenos a <strong>rodriguezyerson2005@gmail.com</strong>
               </p>
             </div>
-
           </div>
         </div>
       )}

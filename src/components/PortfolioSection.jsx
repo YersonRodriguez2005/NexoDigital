@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import imgFitness from '../assets/FitnessAhora.png';
 import imgStudyTrack from '../assets/StudyTrack.png';
-import imgStopFood from '../assets/StopFood.png';
+import Restaurant from '../assets/Restaurant.png';
 import imgViaSegura from '../assets/ViaSegura.png';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -36,12 +36,12 @@ const PROJECTS = [
     id: 3,
     tipo: 'Sistema POS',
     category: 'web',
-    title: 'Stop Food POS',
+    title: 'Restaurant - POS',
     subtitle: 'Punto de Venta para Restaurante',
     description:
       'Sistema de punto de venta completo con gestión de productos, ventas y usuarios. Diseño fluido optimizado para operaciones de restaurante en tiempo real.',
-    imagenUrl: imgStopFood,
-    linkProyecto: 'https://pos-stop-food.vercel.app/',
+    imagenUrl: Restaurant,
+    linkProyecto: 'https://pos-restaurant-col.vercel.app/',
     metric: { value: '3×', label: 'Más rápido' },
     accentColor: '#f59e0b',
   },
