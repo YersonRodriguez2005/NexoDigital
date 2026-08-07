@@ -2,24 +2,28 @@
 
 export const softwareProducts = [
   {
-    id: 1,
-    title: "FitnnesSync",
-    description: "App movil con funcionalidades para cuidar tu salud.",
-    fullDescription: "FitnnesSync es una aplicación móvil diseñada para ayudarte a mantener un estilo de vida saludable. Ofrece funciones de seguimiento de ejercicio, planificación de rutinas, monitoreo de nutrición y estadísticas personalizables para alcanzar tus objetivos fitness.",
-    price: "80.000",        // Pago inicial
-    monthlyFee: "35.000",
-    imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80",
+    id: 1, 
+    title: "InvenSync",
+    description: "Sistema inteligente de Punto de Venta (POS) y control de inventario en tiempo real.",
+    fullDescription: "InvenSync es una plataforma integral diseñada para modernizar y agilizar comercios locales. Ofrece un sistema de caja rápida (POS), sincronización de inventario al instante, reportes de ventas y una aplicación móvil nativa que permite escanear productos directamente desde el celular. Olvídate del desorden y toma el control total de las finanzas de tu negocio.",
+    price: "80.000",       
+    monthlyFee: "20.000",
+    regularPrice: "150.000",
+    imageUrl: "/assets/InvenSync_images/image-main.png",
     gallery: [
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1556741533-6e6a62bd8b49?auto=format&fit=crop&w=800&q=80"
+      "/assets/InvenSync_images/dashboard.png",
+      "/assets/InvenSync_images/inventario.png",
+      "/assets/InvenSync_images/historial.png",
+      "/assets/InvenSync_images/creditos.png",
+      "/assets/InvenSync_images/arqueo.png"
     ],
     platform: "Web & Mobile App",
-    categories: ["Finanzas", "Retail", "SaaS"],
-    target: ["Supermercados", "Ferreterías", "Restaurantes", "Boutiques"],
+    categories: ["POS", "Inventario", "SaaS"],
+    target: ["Comidas Rápidas", "Restaurantes", "Minimarkets", "Tiendas de Barrio"],
     tags: [
-      { label: 'SaaS', color: '#60a5fa' },
-      { label: 'Finanzas', color: '#10B981' }
+      { label: 'SaaS', color: '#3b82f6' },
+      { label: 'Gestión', color: '#10b981' },
+      { label: 'Multiplataforma', color: '#8b5cf6' }
     ]
-  },
+  }
 ];
