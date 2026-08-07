@@ -1,6 +1,6 @@
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSection';
-import ProductsSection from './components/ProductCard'; // Import renombrado para mayor claridad
+import ProductsSection from './components/ProductCard';
 import PortfolioSection from './components/PortfolioSection';
 import ServicesSection from './components/ServicesSection';
 import Footer from './components/Footer';
