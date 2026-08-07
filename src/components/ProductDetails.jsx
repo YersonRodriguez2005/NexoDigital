@@ -236,7 +236,7 @@ const ProductDetails = ({ product, onClose }) => {
                 <h3 className="pd-section-title" style={{ marginBottom: '1.25rem' }}>
                   Interfaz del Sistema
                 </h3>
-                
+
                 <div className="pd-gallery">
                   {product.gallery.map((imgUrl, idx) => (
                     <img key={idx} src={imgUrl} alt={`${product.title} vista ${idx + 1}`} />
@@ -266,8 +266,7 @@ const ProductDetails = ({ product, onClose }) => {
                   </li>
                   <li className="pd-features-item">
                     <CheckCircle2 size={20} className="pd-features-icon" />
-                    <span><strong>Capacitación:</strong> Video completo de orientación para enseñar a tu equipo a usar el sistema.</span>
-                  </li>
+                    <span><strong>Capacitación:</strong> Incluye video explicativo y manual en PDF para guiar a tu equipo en el uso rápido del sistema.</span>                  </li>
                   <li className="pd-features-item">
                     <CheckCircle2 size={20} className="pd-features-icon" />
                     <span><strong>Soporte Técnico:</strong> Asistencia prioritaria vía WhatsApp para resolver cualquier inconveniente.</span>
