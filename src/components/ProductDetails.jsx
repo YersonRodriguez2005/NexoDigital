@@ -325,7 +325,7 @@ const ProductDetails = ({ product, onClose }) => {
 
                     <div className="pd-monthly">
                       + ${product.monthlyFee} COP / mes
-                      <span className="pd-monthly-detail">Servidor en la nube, actualizaciones y soporte técnico (Continúas pagando el 2.º mes).</span>
+                      <span className="pd-monthly-detail">Servidor en la nube, actualizaciones y soporte técnico (Continúas pagando el 3.º mes).</span>
                     </div>
 
                     <button className="pd-buy-btn" onClick={handleBuyClick}>
