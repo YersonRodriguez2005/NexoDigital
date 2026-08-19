@@ -79,8 +79,16 @@ const ProductDetails = ({ product, onClose }) => {
         .pd-gallery::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         
         .pd-gallery img {
-          flex: 0 0 85%; max-width: 650px; height: 340px; object-fit: cover;
-          border-radius: 16px; scroll-snap-align: center; border: 1px solid #e2e8f0;
+          /* SOLUCIÓN AL RESPONSIVE DE IMÁGENES MÓVIL/PC: */
+          flex: 0 0 auto; /* Permite que el ancho se adapte automáticamente */
+          width: auto; /* Se ajusta a la proporción original (vertical u horizontal) */
+          max-width: 90%; /* Evita que una imagen horizontal muy ancha se salga de la pantalla */
+          height: 380px; /* Mantiene una altura fija para que la galería se vea ordenada */
+          object-fit: contain; /* ⬅️ LA MAGIA: Muestra la imagen COMPLETA sin recortes */
+          border-radius: 12px; 
+          scroll-snap-align: center; 
+          border: 1px solid #e2e8f0;
+          background: #f8fafc; /* Añade un fondo sutil elegante si la imagen no llena el ancho */
           box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
 
@@ -200,7 +208,12 @@ const ProductDetails = ({ product, onClose }) => {
           .pd-header { padding: 1.5rem 1.5rem 1rem; }
           .pd-title { font-size: 1.75rem; }
           .pd-body { padding: 1.5rem; }
-          .pd-gallery img { flex: 0 0 90%; height: 240px; }
+          
+          /* Ajuste para que en celulares la galería también se vea perfecta */
+          .pd-gallery img { 
+            height: 300px; /* Un poco más pequeña para pantallas de teléfono */
+            max-width: 95%; 
+          } 
         }
       `}</style>
 
@@ -318,14 +331,22 @@ const ProductDetails = ({ product, onClose }) => {
                       </div>
                     )}
 
-                    <div className="pd-price-label">Setup (Pago único de instalación):</div>
+                    {/* Título dinámico del precio */}
+                    <div className="pd-price-label">
+                      {product.priceLabel || 'Setup (Pago único de instalación):'}
+                    </div>
+                    
+                    {/* Precio Principal */}
                     <div className="pd-price">
                       <span>$</span>{product.price}<span className="pd-price-currency">COP</span>
                     </div>
 
+                    {/* Cuadro Verde Dinámico */}
                     <div className="pd-monthly">
-                      + ${product.monthlyFee} COP / mes
-                      <span className="pd-monthly-detail">Servidor en la nube, actualizaciones y soporte técnico (Continúas pagando el 3.º mes).</span>
+                      {product.monthlyFeeLabel || `+ $${product.monthlyFee} COP / mes`}
+                      <span className="pd-monthly-detail">
+                        {product.monthlyFeeDescription || 'Servidor en la nube, actualizaciones y soporte técnico.'}
+                      </span>
                     </div>
 
                     <button className="pd-buy-btn" onClick={handleBuyClick}>
