@@ -15,7 +15,7 @@ export const softwareProducts = [
     // 👇 NUEVO: Etiquetas dinámicas para la caja de precios
     priceLabel: "Setup (Pago único de instalación):",
     monthlyFeeLabel: "+ $15.000 COP / mes",
-    monthlyFeeDescription: "Servidor en la nube, actualizaciones y soporte técnico (Empiezas a pagar al 3.º mes).",
+    monthlyFeeDescription: "Servidor en la nube, actualizaciones y soporte técnico (Empiezas a pagar al 2.º mes).",
 
     imageUrl: "/assets/InvenSync_images/image-main.jpg",
     gallery: [
