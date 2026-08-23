@@ -17,7 +17,7 @@ export const softwareProducts = [
     monthlyFeeLabel: "+ $15.000 COP / mes",
     monthlyFeeDescription: "Servidor en la nube, actualizaciones y soporte técnico (Empiezas a pagar al 3.º mes).",
 
-    imageUrl: "/assets/InvenSync_images/image-main.png",
+    imageUrl: "/assets/InvenSync_images/image-main.jpg",
     gallery: [
       "/assets/InvenSync_images/dashboard.png",
       "/assets/InvenSync_images/inventario.png",
