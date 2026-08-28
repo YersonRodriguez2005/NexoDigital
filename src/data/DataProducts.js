@@ -68,7 +68,7 @@ export const softwareProducts = [
       "App móvil para la gestión de nómina, pesadas diarias y ventas en fincas cafeteras.",
     fullDescription:
       "CosechaSync es la herramienta definitiva para digitalizar el campo. Diseñada para funcionar en zonas rurales (modo offline), permite a los administradores registrar pesadas de café, controlar vales o adelantos de trabajadores, y liquidar la nómina semanal en segundos. Di adiós a los errores de cálculo en papel y comparte comprobantes de pago profesionales en PDF directamente por WhatsApp.",
-    price: "15.000",
+    price: "20.000",
     monthlyFee: "0",
     regularPrice: "80.000",
 
