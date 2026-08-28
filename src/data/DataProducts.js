@@ -85,6 +85,7 @@ export const softwareProducts = [
       "/assets/CosechaSync_images/tienda.png",
       "/assets/CosechaSync_images/nomina.png",
       "/assets/CosechaSync_images/ventas.png",
+      "/assets/CosechaSync_images/cierres.png",
     ],
     platform: "Mobile App (Android)",
     categories: ["AgroTech", "Nómina", "Gestión"],
