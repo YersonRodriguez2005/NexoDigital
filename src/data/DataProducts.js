@@ -118,4 +118,56 @@ export const softwareProducts = [
       },
     ],
   },
+  {
+    id: 3,
+    title: "StudySync",
+    description: "Plataforma académica integral para la gestión de estudios, tareas y progreso universitario.",
+    fullDescription: "StudySync es tu centro de comando académico definitivo. Organiza tu semestre, lleva un registro meticuloso de tus tareas por materia, visualiza tus fechas límite en un calendario interactivo y monitoriza tu progreso real a través de analíticas y un sistema de logros gamificado. Diseñado por y para estudiantes, funciona fluido y rápido en cualquier dispositivo.",
+    price: "29.900",
+    monthlyFee: "0",
+    regularPrice: "60.000",
+    priceLabel: "Plan Fundador (Semestre completo):",
+    monthlyFeeLabel: "Pago único por semestre",
+    monthlyFeeDescription: "Acceso total durante 6 meses. Sin cargos ocultos. Te invitamos a ser pionero de la plataforma.",
+    imageUrl: "/assets/StudySync_images/image-main.jpg",
+    gallery: [
+      "/assets/StudySync_images/dashboard.png",
+      "/assets/StudySync_images/cursos.png",
+      "/assets/StudySync_images/tareas.png",
+      "/assets/StudySync_images/calendario.png",
+      "/assets/StudySync_images/progreso.png",
+      "/assets/StudySync_images/trofeos.png",
+    ],
+    platform: "Web Application (PWA)",
+    categories: ["Productividad", "EdTech", "Educación"],
+    target: [
+      "Estudiantes Universitarios",
+      "Autodidactas",
+      "Opositores",
+      "Estudiantes de Posgrado"
+    ],
+    tags: [
+      { label: "EdTech", color: "#4361EE" },
+      { label: "Productividad", color: "#06C896" },
+      { label: "Estudio", color: "#F59E0B" }
+    ],
+    features: [
+      {
+        title: "Gestor de Tareas Inteligente:",
+        description: "Organiza pendientes, asigna prioridades, vincula a materias específicas y usa el buscador de ultra-rápido rendimiento."
+      },
+      {
+        title: "Seguimiento de Progreso y Analíticas:",
+        description: "Visualiza tu avance general y el rendimiento detallado por materia a través de gráficos e indicadores clave."
+      },
+      {
+        title: "Sistema de Logros (Gamificación):",
+        description: "Mantén la motivación alta desbloqueando medallas y trofeos a medida que completas actividades."
+      },
+      {
+        title: "Soporte Multiplataforma (PWA):",
+        description: "Instálalo como una aplicación nativa en tu celular o utilízalo desde el navegador de tu computadora."
+      }
+    ]
+  },
 ];
