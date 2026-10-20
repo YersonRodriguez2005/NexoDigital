@@ -1,25 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Configuraciones Globales ─── */
+/* ─── Variables y Configuración Raíz ─── */
+:root {
+  --nav-height: 80px;
+}
+
 html {
-  /* Scroll suave nativo para toda la aplicación */
   scroll-behavior: smooth;
-  /* Espacio para que el NavBar fijo no tape los títulos al hacer scroll */
-  scroll-padding-top: 80px; 
+  /* Margen dinámico para que los links (#servicios, #portafolio) no queden tapados por el NavBar */
+  scroll-padding-top: var(--nav-height);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  /* Fondo oscuro principal que usas en casi todas las secciones */
-  background-color: #070E1E; 
+  background-color: #070E1E;
   color: #F8FAFC;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
-/* ─── Scrollbar Personalizada ─── */
+/* Títulos y branding con Montserrat por defecto */
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* ─── Scrollbar Personalizada Nexo ─── */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -27,15 +39,16 @@ body {
   background: #070E1E;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e3a6e;
+  background: #1e293b;
   border-radius: 4px;
+  border: 1px solid rgba(37, 99, 235, 0.2);
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #2563EB;
 }
 
-/* ─── Color de Selección de Texto ─── */
+/* ─── Selección de texto ─── */
 ::selection {
   background: rgba(37, 99, 235, 0.35);
-  color: #fff;
+  color: #ffffff;
 }

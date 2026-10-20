@@ -1,513 +1,281 @@
 import React, { useState, useRef, useEffect } from 'react';
+import {
+  MonitorCheck,
+  Database,
+  Cpu,
+  Sparkles,
+  ArrowRight,
+  ShieldCheck,
+  Zap,
+  CheckCircle2,
+  Code2,
+} from 'lucide-react';
 
-// ─── Icon SVGs (inline, sin dependencia de lucide) ──────────────────────────
-const IconPlatform = ({ active }) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="2" y="3" width="20" height="14" rx="2.5" stroke={active ? '#2563EB' : '#475569'} strokeWidth="1.75"/>
-    <path d="M8 21H16M12 17V21" stroke={active ? '#2563EB' : '#475569'} strokeWidth="1.75" strokeLinecap="round"/>
-    <path d="M6 8H10M6 11H14" stroke={active ? '#60a5fa' : '#64748b'} strokeWidth="1.5" strokeLinecap="round"/>
-  </svg>
-);
-
-const IconDatabase = ({ active }) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="12" cy="6" rx="8" ry="3" stroke={active ? '#2563EB' : '#475569'} strokeWidth="1.75"/>
-    <path d="M4 6V12C4 13.657 7.582 15 12 15C16.418 15 20 13.657 20 12V6" stroke={active ? '#2563EB' : '#475569'} strokeWidth="1.75"/>
-    <path d="M4 12V18C4 19.657 7.582 21 12 21C16.418 21 20 19.657 20 18V12" stroke={active ? '#60a5fa' : '#64748b'} strokeWidth="1.75"/>
-  </svg>
-);
-
-const IconAPI = ({ active }) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="2" y="7" width="7" height="7" rx="1.75" stroke={active ? '#2563EB' : '#475569'} strokeWidth="1.75"/>
-    <rect x="15" y="3" width="7" height="7" rx="1.75" stroke={active ? '#2563EB' : '#475569'} strokeWidth="1.75"/>
-    <rect x="15" y="14" width="7" height="7" rx="1.75" stroke={active ? '#60a5fa' : '#64748b'} strokeWidth="1.75"/>
-    <path d="M9 10.5H12M12 10.5V6.5M12 10.5V17.5" stroke={active ? '#93c5fd' : '#64748b'} strokeWidth="1.5" strokeLinecap="round"/>
-  </svg>
-);
-
-// ─── Mini tech badge ─────────────────────────────────────────────────────────
+// ─── Mini Badge Tecnológico ──────────────────────────────────────────────────
 const TechBadge = ({ label, color }) => (
-  <span style={{
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '5px',
-    padding: '3px 9px',
-    borderRadius: '100px',
-    background: `${color}14`,
-    border: `1px solid ${color}30`,
-    fontFamily: "'Montserrat', sans-serif",
-    fontSize: '0.65rem',
-    fontWeight: 700,
-    color: color,
-    letterSpacing: '0.06em',
-    textTransform: 'uppercase',
-  }}>
+  <span
+    style={{
+      backgroundColor: `${color}15`,
+      borderColor: `${color}35`,
+      color: color,
+    }}
+    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border font-['Montserrat',sans-serif]"
+  >
     {label}
   </span>
 );
 
-// ─── Service data ─────────────────────────────────────────────────────────────
+// ─── Servicios Especializados ────────────────────────────────────────────────
 const SERVICES = [
   {
     id: 1,
-    icon: (active) => <IconPlatform active={active} />,
     number: '01',
+    icon: MonitorCheck,
     title: 'Plataformas Web a la Medida',
     description:
-      'Desarrollamos interfaces modernas y ultrarrápidas. Tu equipo tendrá un sistema de gestión intuitivo, accesible desde cualquier dispositivo y construido exactamente para tus flujos de trabajo.',
-    tech: [
-      { label: 'React', color: '#60a5fa' },
-      { label: 'TypeScript', color: '#818cf8' },
-      { label: 'Vite', color: '#f59e0b' },
+      'Desarrollamos interfaces web y aplicaciones cloud modernas, intuitivas y ultrarrápidas. Tu equipo dispondrá de un centro de mando adaptado al 100% a tus flujos de trabajo específicos.',
+    features: [
+      'Accesible desde cualquier navegador y dispositivo móvil',
+      'Arquitectura reactiva sin tiempos muertos de recarga',
+      'Paneles administrativos y reportes exportables en un clic',
     ],
-    metric: { value: '< 2s', label: 'Tiempo de carga' },
-    accentColor: '#2563EB',
+    tech: [
+      { label: 'React', color: '#2563EB' },
+      { label: 'TypeScript', color: '#6366F1' },
+      { label: 'Tailwind CSS', color: '#0EA5E9' },
+    ],
+    metric: { value: '< 1.8s', label: 'Tiempo de Carga' },
+    accentGradient: 'from-blue-600 to-cyan-500',
+    iconBg: 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white',
   },
   {
     id: 2,
-    icon: (active) => <IconDatabase active={active} />,
     number: '02',
+    icon: Database,
     title: 'Arquitectura de Datos Segura',
     description:
-      'Estructuramos y centralizamos la información de tu empresa con bases de datos relacionales robustas. Cero pérdida de datos, backups automatizados y máxima integridad desde el primer día.',
-    tech: [
-      { label: 'PostgreSQL', color: '#60a5fa' },
-      { label: 'Prisma', color: '#a78bfa' },
-      { label: 'Redis', color: '#f87171' },
+      'Centralizamos y protegemos el activo más valioso de tu negocio: tu información. Diseñamos modelos relacionales blindados con cero pérdida de registros y copias de seguridad continuas.',
+    features: [
+      'Bases de datos optimizadas para alta concurrencia',
+      'Backups automáticos en la nube y recuperación ante fallos',
+      'Control estricto de roles, auditoría y permisos de usuario',
     ],
-    metric: { value: '99.9%', label: 'Uptime garantizado' },
-    accentColor: '#2563EB',
+    tech: [
+      { label: 'PostgreSQL', color: '#2563EB' },
+      { label: 'Prisma / SQL', color: '#8B5CF6' },
+      { label: 'Cloudflare R2', color: '#F97316' },
+    ],
+    metric: { value: '99.9%', label: 'Uptime Cloud' },
+    accentGradient: 'from-indigo-600 to-purple-500',
+    iconBg: 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white',
   },
   {
     id: 3,
-    icon: (active) => <IconAPI active={active} />,
     number: '03',
-    title: 'Sistemas Embebidos y APIs',
+    icon: Cpu,
+    title: 'APIs, Automatización & Backend',
     description:
-      'Conectamos todas las áreas de tu negocio. Construimos el cerebro de tu operación para automatizar facturación, control de roles, inventarios y reportes en tiempo real sin intervención manual.',
-    tech: [
-      { label: 'Node.js', color: '#34d399' },
-      { label: 'Express', color: '#94a3b8' },
-      { label: 'REST/WS', color: '#f59e0b' },
+      'Construimos el motor lógico de tu operación. Automatizamos facturación, sincronización de stock multi-sucursal y comunicación en tiempo real sin requerir tareas manuales repetitivas.',
+    features: [
+      'Servidores Node.js y Express con rendimiento optimizado',
+      'Conexión fluida con pasarelas de pago y mensajería WhatsApp',
+      'WebSockets para actualización de datos en vivo sin refrescar',
     ],
-    metric: { value: '5× más', label: 'Velocidad operativa' },
-    accentColor: '#2563EB',
+    tech: [
+      { label: 'Node.js', color: '#10B981' },
+      { label: 'Express', color: '#64748B' },
+      { label: 'WebSockets', color: '#F59E0B' },
+    ],
+    metric: { value: '5× más', label: 'Eficiencia Operativa' },
+    accentGradient: 'from-emerald-600 to-teal-500',
+    iconBg: 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white',
   },
 ];
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// ─── Componente Principal ─────────────────────────────────────────────────────
 const ServicesSection = () => {
-  const [hoveredId, setHoveredId] = useState(null);
   const [inView, setInView] = useState(false);
   const sectionRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold: 0.1 }
+      ([entry]) => {
+        if (entry.isIntersecting) setInView(true);
+      },
+      { threshold: 0.12 }
     );
+
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+    <section
+      id="servicios"
+      ref={sectionRef}
+      className="relative bg-slate-100/90 py-24 sm:py-32 overflow-hidden border-t border-slate-200/80"
+    >
+      {/* Fondo técnico con cuadrícula y efecto de máscara radial */}
+      <div className="absolute inset-0 pointer-events-none opacity-40">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#2563eb0a_1px,transparent_1px),linear-gradient(to_bottom,#2563eb0a_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_75%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
+      </div>
 
-        @keyframes svsFadeUp {
-          from { opacity: 0; transform: translateY(28px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes svsLineGrow {
-          from { transform: scaleX(0); }
-          to   { transform: scaleX(1); }
-        }
-
-        .svs-section {
-          position: relative;
-          background: #F1F5F9;
-          padding: 120px 2rem;
-          overflow: hidden;
-        }
-
-        /* Subtle background pattern */
-        .svs-section::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image:
-            linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
-          background-size: 48px 48px;
-          mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 40%, transparent 100%);
-          -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 40%, transparent 100%);
-          pointer-events: none;
-        }
-
-        /* Top gradient transition from dark section */
-        .svs-section::after {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, #2563EB, transparent);
-          opacity: 0.2;
-          pointer-events: none;
-        }
-
-        .svs-inner {
-          position: relative;
-          z-index: 2;
-          max-width: 1280px;
-          margin: 0 auto;
-        }
-
-        /* ── Header ── */
-        .svs-header {
-          text-align: center;
-          max-width: 700px;
-          margin: 0 auto 80px;
-        }
-
-        .svs-eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 20px;
-          animation: ${inView ? 'svsFadeUp 0.6s 0ms both' : 'none'};
-        }
-
-        .svs-eyebrow-line {
-          width: 32px;
-          height: 2px;
-          background: #2563EB;
-          border-radius: 2px;
-          transform-origin: left;
-          animation: ${inView ? 'svsLineGrow 0.5s 0.1s both' : 'none'};
-        }
-
-        .svs-eyebrow-text {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #2563EB;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        .svs-h2 {
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 900;
-          font-size: clamp(1.875rem, 3.5vw, 2.75rem);
-          line-height: 1.08;
-          letter-spacing: -0.04em;
-          color: #0F172A;
-          margin: 0 0 16px;
-          animation: ${inView ? 'svsFadeUp 0.6s 100ms both' : 'none'};
-        }
-
-        .svs-h2 .accent {
-          color: #2563EB;
-          position: relative;
-        }
-
-        .svs-h2 .accent::after {
-          content: '';
-          position: absolute;
-          left: 0; right: 0;
-          bottom: 2px;
-          height: 3px;
-          background: linear-gradient(90deg, #2563EB, #818cf8);
-          border-radius: 2px;
-          opacity: 0.3;
-        }
-
-        .svs-subtitle {
-          font-family: 'Inter', sans-serif;
-          font-size: 1rem;
-          line-height: 1.7;
-          color: #64748b;
-          margin: 0;
-          animation: ${inView ? 'svsFadeUp 0.6s 200ms both' : 'none'};
-        }
-
-        /* ── Grid ── */
-        .svs-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.5rem;
-        }
-
-        /* ── Card ── */
-        .svs-card {
-          position: relative;
-          background: #ffffff;
-          border-radius: 20px;
-          padding: 2.25rem 2rem;
-          border: 1px solid #e2e8f0;
-          cursor: default;
-          overflow: hidden;
-          transition:
-            transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-            box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-            border-color 0.35s ease;
-          display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
-        }
-
-        .svs-card.visible {
-          animation: svsFadeUp 0.6s both;
-        }
-
-        .svs-card:hover {
-          transform: translateY(-6px);
-          box-shadow:
-            0 0 0 1px rgba(37, 99, 235, 0.12),
-            0 20px 56px rgba(37, 99, 235, 0.1),
-            0 8px 24px rgba(0, 0, 0, 0.06);
-          border-color: rgba(37, 99, 235, 0.2);
-        }
-
-        /* Hover gradient overlay */
-        .svs-card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(135deg, rgba(37,99,235,0.03) 0%, transparent 60%);
-          opacity: 0;
-          transition: opacity 0.35s ease;
-          pointer-events: none;
-          border-radius: inherit;
-        }
-
-        .svs-card:hover::before {
-          opacity: 1;
-        }
-
-        /* Top colored accent */
-        .svs-card::after {
-          content: '';
-          position: absolute;
-          top: 0; left: 24px; right: 24px;
-          height: 3px;
-          background: linear-gradient(90deg, #2563EB, #818cf8);
-          border-radius: 0 0 4px 4px;
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .svs-card:hover::after {
-          transform: scaleX(1);
-        }
-
-        /* ── Card number ── */
-        .card-number {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.6875rem;
-          font-weight: 800;
-          color: #cbd5e1;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        /* ── Icon box ── */
-        .icon-box {
-          width: 52px;
-          height: 52px;
-          border-radius: 14px;
-          background: #f1f5f9;
-          border: 1px solid #e2e8f0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-          flex-shrink: 0;
-        }
-
-        .svs-card:hover .icon-box {
-          background: rgba(37, 99, 235, 0.06);
-          border-color: rgba(37, 99, 235, 0.2);
-          transform: rotate(-3deg) scale(1.05);
-        }
-
-        /* ── Title ── */
-        .card-title {
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 800;
-          font-size: 1.125rem;
-          color: #0F172A;
-          line-height: 1.25;
-          letter-spacing: -0.025em;
-          margin: 0;
-          transition: color 0.2s;
-        }
-
-        .svs-card:hover .card-title {
-          color: #1a3a7a;
-        }
-
-        /* ── Description ── */
-        .card-desc {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.9rem;
-          line-height: 1.7;
-          color: #64748b;
-          margin: 0;
-          flex: 1;
-        }
-
-        /* ── Tech badges row ── */
-        .tech-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 6px;
-        }
-
-        /* ── Metric / KPI chip ── */
-        .metric-chip {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 10px 14px;
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 10px;
-          margin-top: auto;
-          transition: background 0.3s, border-color 0.3s;
-        }
-
-        .svs-card:hover .metric-chip {
-          background: rgba(37, 99, 235, 0.04);
-          border-color: rgba(37, 99, 235, 0.15);
-        }
-
-        .metric-chip-left {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .metric-pulse {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #10B981;
-          box-shadow: 0 0 0 0 rgba(16,185,129,0.4);
-          animation: pulseDot 2.5s infinite;
-        }
-
-        @keyframes pulseDot {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
-          50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
-        }
-
-        .metric-value {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.875rem;
-          font-weight: 800;
-          color: #0F172A;
-          letter-spacing: -0.02em;
-        }
-
-        .metric-label {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.7rem;
-          color: #94a3b8;
-          letter-spacing: 0.03em;
-          text-transform: uppercase;
-          font-weight: 500;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 1024px) {
-          .svs-grid {
-            grid-template-columns: 1fr 1fr;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .svs-section { padding: 80px 1.5rem; }
-          .svs-grid { grid-template-columns: 1fr; }
-        }
-      `}</style>
-
-      <section id="servicios" className="svs-section" ref={sectionRef}>
-        <div className="svs-inner">
-
-          {/* Header */}
-          <div className="svs-header">
-            <div className="svs-eyebrow">
-              <div className="svs-eyebrow-line" />
-              <span className="svs-eyebrow-text">Nuestros Servicios</span>
-              <div className="svs-eyebrow-line" style={{ transformOrigin: 'right' }} />
-            </div>
-
-            <h2 className="svs-h2">
-              Tecnología que{' '}
-              <span className="accent">impulsa</span>
-              {' '}tu empresa
-            </h2>
-
-            <p className="svs-subtitle">
-              No adaptes tu negocio a un software genérico. Construimos herramientas
-              exactas para los flujos de trabajo de tu empresa en el Huila.
-              Busca mejorar tu vida personal con mas productividad con tu propia app.
-            </p>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* ── Cabecera de la Sección ── */}
+        <div className="max-w-2xl mx-auto text-center mb-16 lg:mb-20">
+          <div
+            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600/10 border border-blue-500/20 mb-4 transition-all duration-700 ${
+              inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+            <span className="font-['Montserrat',sans-serif] text-xs font-bold uppercase tracking-widest text-blue-600">
+              Servicios de Ingeniería
+            </span>
           </div>
 
-          {/* Cards Grid */}
-          <div className="svs-grid">
-            {SERVICES.map((service, index) => {
-              const isHovered = hoveredId === service.id;
-              return (
-                <div
-                  key={service.id}
-                  className={`svs-card ${inView ? 'visible' : ''}`}
-                  style={{ animationDelay: `${200 + index * 120}ms` }}
-                  onMouseEnter={() => setHoveredId(service.id)}
-                  onMouseLeave={() => setHoveredId(null)}
-                >
-                  {/* Number */}
-                  <span className="card-number">{service.number}</span>
+          <h2
+            className={`font-['Montserrat',sans-serif] font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight leading-tight transition-all duration-700 delay-100 ${
+              inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            Tecnología hecha para{' '}
+            <span className="relative inline-block text-blue-600">
+              escalar
+              <span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-full opacity-60" />
+            </span>{' '}
+            tu negocio
+          </h2>
 
-                  {/* Icon */}
-                  <div className="icon-box">
-                    {service.icon(isHovered)}
+          <p
+            className={`font-['Inter',sans-serif] text-base sm:text-lg text-slate-600 mt-4 leading-relaxed transition-all duration-700 delay-200 ${
+              inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            No encajes tu operación en plantillas rígidas. Diseñamos y desarrollamos
+            software a la medida que resuelve tus cuellos de botella reales con arquitectura industrial.
+          </p>
+        </div>
+
+        {/* ── Grid de Servicios (Bento Cards) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+          {SERVICES.map((service, index) => {
+            const IconComponent = service.icon;
+
+            return (
+              <article
+                key={service.id}
+                style={{ transitionDelay: `${150 + index * 100}ms` }}
+                className={`group relative flex flex-col justify-between bg-white rounded-3xl border border-slate-200/90 p-7 sm:p-8 shadow-sm hover:shadow-2xl hover:shadow-blue-600/10 hover:border-blue-500/40 transition-all duration-300 hover:-translate-y-1.5 overflow-hidden ${
+                  inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+              >
+                {/* Línea de acento animada al hacer hover */}
+                <div
+                  className={`absolute top-0 inset-x-8 h-1 bg-gradient-to-r ${service.accentGradient} rounded-b-md opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                />
+
+                {/* ── Contenido Superior ── */}
+                <div>
+                  {/* Fila: Número e Icono */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div
+                      className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm ${service.iconBg}`}
+                    >
+                      <IconComponent size={26} strokeWidth={2} />
+                    </div>
+
+                    <span className="font-['Montserrat',sans-serif] text-xs font-black tracking-widest text-slate-400 group-hover:text-blue-600 transition-colors uppercase">
+                      {service.number}
+                    </span>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="card-title">{service.title}</h3>
+                  {/* Título */}
+                  <h3 className="font-['Montserrat',sans-serif] font-extrabold text-xl sm:text-2xl text-slate-900 group-hover:text-blue-600 transition-colors duration-200 leading-snug">
+                    {service.title}
+                  </h3>
 
-                  {/* Description */}
-                  <p className="card-desc">{service.description}</p>
+                  {/* Descripción */}
+                  <p className="font-['Inter',sans-serif] text-sm text-slate-600 mt-3 leading-relaxed">
+                    {service.description}
+                  </p>
 
-                  {/* Tech stack */}
-                  <div className="tech-row">
+                  {/* Lista de Capacidades Clave */}
+                  <ul className="mt-5 space-y-2.5">
+                    {service.features.map((feature, fIdx) => (
+                      <li key={fIdx} className="flex items-start gap-2.5 text-xs text-slate-700 font-['Inter',sans-serif]">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Stack Tecnológico */}
+                  <div className="flex flex-wrap gap-1.5 mt-6 pt-5 border-t border-slate-100">
                     {service.tech.map((t) => (
                       <TechBadge key={t.label} label={t.label} color={t.color} />
                     ))}
                   </div>
+                </div>
 
-                  {/* KPI chip */}
-                  <div className="metric-chip">
-                    <div className="metric-chip-left">
-                      <div className="metric-pulse" />
-                      <span className="metric-value">{service.metric.value}</span>
+                {/* ── Chip de Métrica / KPI al fondo ── */}
+                <div className="mt-8 pt-4 border-t border-slate-100">
+                  <div className="flex items-center justify-between p-3.5 bg-slate-50 group-hover:bg-blue-50/60 rounded-2xl border border-slate-200/80 group-hover:border-blue-200 transition-colors duration-200">
+                    <div className="flex items-center gap-2.5">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                      </span>
+                      <span className="font-['Montserrat',sans-serif] font-black text-base text-slate-900 tabular-nums">
+                        {service.metric.value}
+                      </span>
                     </div>
-                    <span className="metric-label">{service.metric.label}</span>
+
+                    <span className="font-['Inter',sans-serif] text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                      {service.metric.label}
+                    </span>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+
+              </article>
+            );
+          })}
         </div>
-      </section>
-    </>
+
+        {/* ── Banner de Asesoría & Diagnóstico ── */}
+        <div
+          className={`mt-16 p-8 sm:p-10 rounded-3xl bg-white border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-700 delay-400 ${
+            inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+          }`}
+        >
+          <div className="flex items-center gap-4 text-left">
+            <div className="w-12 h-12 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-600 shrink-0">
+              <Code2 size={24} />
+            </div>
+            <div>
+              <h4 className="font-['Montserrat',sans-serif] font-extrabold text-lg sm:text-xl text-slate-900">
+                ¿Necesitas una auditoría técnica o solución personalizada?
+              </h4>
+              <p className="font-['Inter',sans-serif] text-sm text-slate-600 mt-0.5">
+                Evaluamos tu arquitectura actual y te proponemos un plan de desarrollo viable y escalable.
+              </p>
+            </div>
+          </div>
+
+          <a
+            href="https://wa.me/573216393715?text=%C2%A1Hola,%20Nexo%20Digital!%20Me%20gustar%C3%ADa%20solicitar%20un%20diagn%C3%B3stico%20t%C3%A9cnico%20para%20un%20proyecto%20de%20software%20a%20la%20medida."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-slate-900 hover:bg-blue-600 text-white font-['Montserrat',sans-serif] text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-blue-600/30 shrink-0 hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <span>Consultar con un Ingeniero</span>
+            <ArrowRight size={15} />
+          </a>
+        </div>
+
+      </div>
+    </section>
   );
 };
 

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import NexoLogo from '../assets/Logo1.png';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Inicio' },
-  { href: '#portafolio', label: 'Casos de Éxito' },
+  { href: '#inicio', label: 'Inicio' },
   { href: '#servicios', label: 'Servicios' },
+  { href: '#portafolio', label: 'Casos de Éxito' },
 ];
 
-const NavBar = () => {
+const NavBar = ({ onOpenQuote }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -18,202 +18,137 @@ const NavBar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLinkClick = (e, link) => {
+    if (link.isModal) {
+      e.preventDefault();
+      onOpenQuote();
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-['Montserrat',sans-serif] ${
+        scrolled
+          ? 'bg-[#070E1E]/85 backdrop-blur-xl border-b border-blue-500/20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] py-3'
+          : 'bg-transparent border-b border-transparent py-5'
+      }`}
+    >
+      <div
+        className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent transition-opacity duration-500 ${
+          scrolled ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
 
-        html { scroll-padding-top: 80px; }
-
-        .nexo-nav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .nexo-nav.scrolled {
-          background: rgba(7, 14, 30, 0.92);
-          backdrop-filter: blur(24px) saturate(180%);
-          -webkit-backdrop-filter: blur(24px) saturate(180%);
-          border-bottom: 1px solid rgba(37, 99, 235, 0.15);
-          box-shadow: 0 1px 0 rgba(37, 99, 235, 0.08), 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .nexo-nav.top {
-          background: transparent; border-bottom: 1px solid transparent;
-        }
-
-        .nav-inner {
-          max-width: 1280px; margin: 0 auto; padding: 0 2rem;
-          display: flex; align-items: center; justify-content: space-between; height: 76px;
-        }
-
-        /* LOGO */
-        .logo-wrap {
-          display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;
-        }
-        .logo-text {
-          font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.35rem;
-          color: #ffffff; letter-spacing: -0.03em; line-height: 1;
-        }
-        .logo-text span { color: #2563EB; }
-
-        /* NAV LINKS */
-        .nav-links { display: flex; align-items: center; gap: 0.25rem; }
-        .nav-link {
-          position: relative; padding: 0.5rem 1rem; font-family: 'Montserrat', sans-serif;
-          font-size: 0.8125rem; font-weight: 600; color: #94a3b8; text-decoration: none;
-          letter-spacing: 0.04em; text-transform: uppercase; border-radius: 8px;
-          transition: color 0.25s ease, background 0.25s ease; overflow: hidden;
-        }
-        .nav-link::after {
-          content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%) scaleX(0);
-          width: 16px; height: 2px; background: #2563EB; border-radius: 2px;
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .nav-link:hover { color: #ffffff; background: rgba(37, 99, 235, 0.08); }
-        .nav-link:hover::after { transform: translateX(-50%) scaleX(1); }
-
-        /* CTA BUTTON */
-        .cta-btn {
-          position: relative; display: inline-flex; align-items: center; gap: 8px;
-          padding: 0.625rem 1.5rem; font-family: 'Montserrat', sans-serif; font-size: 0.8125rem;
-          font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-          color: #ffffff; background: #2563EB; border: 1px solid rgba(255, 255, 255, 0.12);
-          border-radius: 10px; cursor: pointer; overflow: hidden;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          box-shadow: 0 0 0 0 rgba(37, 99, 235, 0), 0 4px 16px rgba(37, 99, 235, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-        .cta-btn::before {
-          content: ''; position: absolute; inset: 0;
-          background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%); pointer-events: none;
-        }
-        .cta-btn::after {
-          content: ''; position: absolute; inset: 0; background: #1d4ed8;
-          transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .cta-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2), 0 8px 24px rgba(37, 99, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-        .cta-btn:hover::after { transform: translateY(0); }
-        .cta-btn span, .cta-arrow { position: relative; z-index: 1; }
-        .cta-arrow { width: 14px; height: 14px; transition: transform 0.2s ease; }
-        .cta-btn:hover .cta-arrow { transform: translateX(3px); }
-
-        /* STATUS INDICATOR */
-        .status-badge {
-          display: flex; align-items: center; gap: 6px; padding: 4px 10px;
-          border-radius: 100px; background: rgba(16, 185, 129, 0.1);
-          border: 1px solid rgba(16, 185, 129, 0.2); margin-right: 16px;
-        }
-        .status-dot {
-          width: 6px; height: 6px; border-radius: 50%; background: #10B981;
-          animation: pulse-green 2s infinite; flex-shrink: 0;
-        }
-        @keyframes pulse-green {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
-          50% { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
-        }
-        .status-text {
-          font-family: 'Montserrat', sans-serif; font-size: 0.6875rem; font-weight: 600;
-          color: #10B981; letter-spacing: 0.05em; white-space: nowrap;
-        }
-
-        /* MOBILE TOGGLE & MENU */
-        .hamburger-btn {
-          display: none; background: none; border: 1px solid rgba(148, 163, 184, 0.2);
-          border-radius: 8px; padding: 8px; color: #94a3b8; cursor: pointer;
-          transition: color 0.2s, border-color 0.2s, background 0.2s;
-        }
-        .hamburger-btn:hover { color: #fff; border-color: rgba(37, 99, 235, 0.4); background: rgba(37, 99, 235, 0.1); }
-        
-        .mobile-menu {
-          display: none; flex-direction: column; background: rgba(7, 14, 30, 0.97);
-          backdrop-filter: blur(24px); border-top: 1px solid rgba(37, 99, 235, 0.12);
-          padding: 1rem 2rem 1.5rem; gap: 0.25rem; animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .mobile-link {
-          display: block; padding: 0.875rem 1rem; font-family: 'Montserrat', sans-serif;
-          font-size: 0.875rem; font-weight: 600; color: #94a3b8; text-decoration: none;
-          letter-spacing: 0.04em; border-radius: 8px; border-left: 2px solid transparent;
-          transition: color 0.2s, border-color 0.2s, background 0.2s, padding-left 0.2s;
-        }
-        .mobile-link:hover { color: #fff; border-left-color: #2563EB; background: rgba(37, 99, 235, 0.06); padding-left: 1.25rem; }
-        .mobile-divider { height: 1px; background: rgba(148, 163, 184, 0.1); margin: 0.75rem 0; }
-        .mobile-cta { width: 100%; margin-top: 0.25rem; justify-content: center; }
-
-        @media (max-width: 768px) {
-          .nav-links, .desktop-cta, .status-badge { display: none; }
-          .hamburger-btn { display: flex; align-items: center; justify-content: center; }
-          .mobile-menu.open { display: flex; }
-        }
-
-        .nav-accent-line {
-          position: absolute; top: 0; left: 0; right: 0; height: 1px;
-          background: linear-gradient(90deg, transparent 0%, #2563EB 30%, #60a5fa 60%, transparent 100%);
-          opacity: 0; transition: opacity 0.4s ease;
-        }
-        .nexo-nav.scrolled .nav-accent-line { opacity: 1; }
-      `}</style>
-
-      <nav className={`nexo-nav ${scrolled ? 'scrolled' : 'top'}`}>
-        <div className="nav-accent-line" />
-        <div className="nav-inner">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
           
-          {/* Logo a la izquierda */}
-          <a href="/" className="logo-wrap">
-            <img src={NexoLogo} className='w-12 h-12 rounded-lg' alt="Nexo Digital" />
-            <span className="logo-text">Nexo<span>Digital</span></span>
+          {/* Logo Branding */}
+          <a href="/" className="flex items-center gap-3 group focus:outline-none">
+            <div className="relative">
+              <div className="absolute -inset-1 bg-blue-600 rounded-xl blur-sm opacity-40 group-hover:opacity-80 transition duration-300" />
+              <img
+                src={NexoLogo}
+                alt="Nexo Digital"
+                className="relative w-10 h-10 object-contain rounded-lg border border-blue-400/20"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextSibling.style.display = 'flex';
+                }}
+              />
+              <div className="hidden w-10 h-10 rounded-lg bg-blue-600/20 border border-blue-500/40 items-center justify-center text-blue-400 font-bold">
+                ND
+              </div>
+            </div>
+            <span className="text-xl font-extrabold tracking-tight text-white">
+              Nexo<span className="text-blue-500">Digital</span>
+            </span>
           </a>
 
-          {/* Enlaces en el centro */}
-          <nav className="nav-links">
-            {NAV_LINKS.map(({ href, label }) => (
-              <a key={href} href={href} className="nav-link">{label}</a>
+          {/* Navegación Desktop */}
+          <nav className="hidden md:flex items-center gap-1 bg-slate-900/40 p-1.5 rounded-full border border-slate-800/80 backdrop-blur-md">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleLinkClick(e, link)}
+                className="relative px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-300 hover:text-white rounded-full transition-all duration-200 hover:bg-blue-600/10 hover:shadow-[0_0_15px_rgba(37,99,235,0.15)] group cursor-pointer"
+              >
+                {link.label}
+                <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-4 rounded-full" />
+              </a>
             ))}
           </nav>
 
-          {/* Botón y estatus a la derecha */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div className="status-badge">
-              <div className="status-dot" />
-              <span className="status-text">Proyectos disponibles</span>
+          {/* Estado + CTA Desktop */}
+          <div className="hidden md:flex items-center gap-4">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="text-[11px] font-semibold tracking-wide text-emerald-400 uppercase">
+                Cupos Disponibles
+              </span>
             </div>
 
-            <a href="#productos" className="cta-btn desktop-cta" style={{ textDecoration: 'none' }}>
-              <span>Comprar Software</span>
-              <svg className="cta-arrow" viewBox="0 0 14 14" fill="none">
-                <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
+            {/* Botón que abre el modal */}
+            <button
+              type="button"
+              onClick={onOpenQuote}
+              className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(37,99,235,0.35)] hover:shadow-[0_0_25px_rgba(37,99,235,0.6)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 overflow-hidden border border-white/10"
+            >
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+              <span className="relative z-10">Cotizar Software</span>
+              <ArrowRight className="relative z-10 w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+            </button>
+          </div>
 
-            <button className="hamburger-btn" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
-              {isOpen ? <X size={20} /> : <Menu size={20} /> }
+          {/* Hamburguesa Móvil */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 rounded-lg text-slate-300 hover:text-white bg-slate-800/40 border border-slate-700/60 focus:outline-none transition-colors"
+            aria-label="Abrir Menú"
+          >
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Menú Móvil */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          isOpen ? 'max-h-96 opacity-100 border-b border-blue-500/20' : 'max-h-0 opacity-0 pointer-events-none'
+        } bg-[#070E1E]/95 backdrop-blur-2xl`}
+      >
+        <div className="px-5 pt-3 pb-6 space-y-2">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={(e) => handleLinkClick(e, link)}
+              className="block px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wider text-slate-300 hover:text-white hover:bg-blue-600/15 hover:border-l-4 hover:border-blue-500 transition-all cursor-pointer"
+            >
+              {link.label}
+            </a>
+          ))}
+
+          <div className="pt-3 border-t border-slate-800 flex flex-col gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                onOpenQuote();
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-blue-600 text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-blue-600/30"
+            >
+              <span>Cotizar Software</span>
+              <ArrowRight size={14} />
             </button>
           </div>
         </div>
-
-        {/* Menú Móvil ordenado (Enlaces -> Divisor -> Botón) */}
-        <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
-          {NAV_LINKS.map(({ href, label }) => (
-            <a key={href} href={href} className="mobile-link" onClick={() => setIsOpen(false)}>
-              {label}
-            </a>
-          ))}
-          
-          <div className="mobile-divider" />
-          
-          <a href="#productos" className="cta-btn mobile-cta" style={{ textDecoration: 'none' }} onClick={() => setIsOpen(false)}>
-            <span>Comprar Software</span>
-            <svg className="cta-arrow" viewBox="0 0 14 14" fill="none">
-              <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </div>
-      </nav>
-    </>
+      </div>
+    </header>
   );
 };
 

@@ -1,10 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
+import {
+  Smartphone,
+  Monitor,
+  ExternalLink,
+  Download,
+  ArrowRight,
+  Sparkles,
+  TrendingUp,
+} from 'lucide-react';
+
 import imgFitness from '../assets/FitnessAhora.png';
 import imgStudyTrack from '../assets/StudyTrack.png';
 import Restaurant from '../assets/Restaurant.png';
 import imgViaSegura from '../assets/ViaSegura.png';
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Proyectos y Casos de Éxito ──────────────────────────────────────────────
 const PROJECTS = [
   {
     id: 1,
@@ -13,11 +23,11 @@ const PROJECTS = [
     title: 'FitnnesSync',
     subtitle: 'Tu Entrenador Personal',
     description:
-      'FitnnesSync es una aplicación móvil diseñada para ayudarte a mantener un estilo de vida saludable. Ofrece funciones de seguimiento de ejercicio, planificación de rutinas, monitoreo de nutrición y estadísticas personalizables para alcanzar tus objetivos fitness.',
+      'Aplicación móvil diseñada para el seguimiento integral de ejercicio, planificación de rutinas de fuerza, monitoreo calórico y analíticas personalizadas para alcanzar objetivos fitness sin fricción.',
     imagenUrl: imgFitness,
     linkDescarga: 'https://pub-9ed7e687c3b94404acd5252833042478.r2.dev/FitnesSync.apk',
     metric: { value: '100%', label: 'Personalizado' },
-    accentColor: '#60a5fa',
+    accentColor: '#38bdf8', // Sky blue
   },
   {
     id: 2,
@@ -26,24 +36,24 @@ const PROJECTS = [
     title: 'StudyTrack',
     subtitle: 'Gestión de Estudio Universitario',
     description:
-      'Prototipo de plataforma visual de gestión académica con diseño moderno. Seguimiento detallado del progreso estudiantil, metas y hábitos de estudio para universitarios.',
+      'Plataforma web de gestión académica de alto rendimiento. Permite el seguimiento meticuloso de materias, fechas de entrega, cálculo de metas y hábitos de estudio para estudiantes universitarios.',
     imagenUrl: imgStudyTrack,
     linkProyecto: 'https://studytrack-iota.vercel.app/',
     metric: { value: '4.9★', label: 'Experiencia UX' },
-    accentColor: '#818cf8',
+    accentColor: '#818cf8', // Indigo
   },
   {
     id: 3,
     tipo: 'Sistema POS',
     category: 'web',
     title: 'Restaurant - POS',
-    subtitle: 'Punto de Venta para Restaurante',
+    subtitle: 'Punto de Venta Gastronómico',
     description:
-      'Sistema de punto de venta completo con gestión de productos, ventas y usuarios. Diseño fluido optimizado para operaciones de restaurante en tiempo real.',
+      'Sistema de comandas y facturación rápida en tiempo real para negocios gastronómicos. Control de inventario por recetas, mesas activas y arqueos de caja transparentes.',
     imagenUrl: Restaurant,
     linkProyecto: 'https://pos-restaurant-col.vercel.app/',
     metric: { value: '3×', label: 'Más rápido' },
-    accentColor: '#f59e0b',
+    accentColor: '#f59e0b', // Amber
   },
   {
     id: 4,
@@ -52,462 +62,276 @@ const PROJECTS = [
     title: 'Vía Segura',
     subtitle: 'Seguridad Vial Digital',
     description:
-      'Plataforma informativa sobre seguridad vial con recursos educativos, consejos de conducción, estadísticas de accidentes y evaluaciones de aprendizaje interactivas.',
+      'Entorno digital educativo interactivo enfocado en normas de tránsito, estadísticas de accidentabilidad en tiempo real y evaluaciones viales interactivas para conductores.',
     imagenUrl: imgViaSegura,
     linkProyecto: 'https://via-segura.vercel.app/',
     metric: { value: '∞', label: 'Recursos' },
-    accentColor: '#34d399',
+    accentColor: '#34d399', // Emerald
   },
 ];
 
-// ─── Icons ───────────────────────────────────────────────────────────────────
-const IconMobile = () => (
-  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-    <rect x="2.5" y="0.5" width="8" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.25"/>
-    <circle cx="6.5" cy="10" r="0.75" fill="currentColor"/>
-  </svg>
-);
-
-const IconMonitor = () => (
-  <svg width="14" height="13" viewBox="0 0 14 13" fill="none">
-    <rect x="0.75" y="0.75" width="12.5" height="8.5" rx="1.25" stroke="currentColor" strokeWidth="1.25"/>
-    <path d="M4.5 12H9.5M7 9.25V12" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round"/>
-  </svg>
-);
-
-const IconArrow = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-    <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const IconDownload = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-    <path d="M7 1V9M7 9L4 6M7 9L10 6" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M1 11H13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
-  </svg>
-);
-
-const IconExternalLink = () => (
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-    <path d="M7 1H11V5M11 1L5 7M3 3H1V11H9V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-// ─── Project Card ─────────────────────────────────────────────────────────────
+// ─── Tarjeta de Proyecto ──────────────────────────────────────────────────────
 const ProjectCard = ({ project, index, inView }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [hovered, setHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
-      className="pf-card"
-      style={{ 
-        animationDelay: `${150 + index * 120}ms`,
-        '--accent': project.accentColor // MENTOR TIP: Magia de CSS Variables
+    <article
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        transitionDelay: `${150 + index * 120}ms`,
       }}
-      data-inview={inView}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className={`group relative flex flex-col justify-between rounded-3xl bg-slate-900/40 border border-slate-800/80 p-6 sm:p-7 backdrop-blur-xl shadow-sm hover:shadow-2xl hover:shadow-blue-650/30 hover:border-blue-600/50 transition-all duration-300 hover:-translate-y-1.5 cursor-pointer overflow-hidden ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
     >
-      {/* ── Image area ── */}
-      <div className="pf-img-wrap">
-        
-        {/* Browser chrome macOS Style */}
-        <div className="pf-chrome">
-          <div className="pf-chrome-dots">
-            <div style={{ background: '#ff5f57' }} />
-            <div style={{ background: '#febc2e' }} />
-            <div style={{ background: '#28c840' }} />
+      {/* Línea de Acento Superior Dinámica */}
+      <div
+        className="absolute top-0 inset-x-0 h-[2px] transition-opacity duration-300"
+        style={{
+          background: `linear-gradient(90deg, transparent 0%, ${project.accentColor} 50%, transparent 100%)`,
+          opacity: isHovered ? 1 : 0.4,
+        }}
+      />
+
+      {/* ─── Mockup / Contenedor Visual de la Imagen ─── */}
+      <div className="relative w-full aspect-[16/10] bg-[#0A1224] overflow-hidden border-b border-slate-800/80">
+
+        {/* Barra estilo navegador Chrome / App */}
+        <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-4 py-2.5 bg-slate-950/60 backdrop-blur-md border-b border-white/5">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
           </div>
-        </div>
-
-        {/* Image Container */}
-        <div className="pf-img-container">
-          {!imgLoaded && (
-            <div className="pf-img-skeleton">
-              <div className="pf-skeleton-shine" />
-            </div>
-          )}
-          <img
-            src={project.imagenUrl}
-            alt={project.title}
-            className="pf-img"
-            style={{ opacity: imgLoaded ? 1 : 0 }}
-            onLoad={() => setImgLoaded(true)}
-          />
-
-          {/* Renderizado Condicional: No mostrar overlay en Mobile */}
-          {project.category !== 'mobile' && (
-            <div className="pf-img-overlay" style={{ opacity: hovered ? 1 : 0 }}>
-              <a
-                href={project.linkProyecto}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pf-overlay-btn"
-              >
-                <span>Ver proyecto</span>
-                <IconExternalLink />
-              </a>
-            </div>
-          )}
-        </div>
-
-        {/* Type badge */}
-        <div className="pf-type-badge">
-          <span style={{ color: 'var(--accent)' }}>
-            {project.category === 'mobile' ? <IconMobile /> : <IconMonitor />}
+          <span className="text-[10px] font-mono tracking-wider text-slate-500 uppercase">
+            {project.category === 'mobile' ? 'Android Native' : 'Cloud Deployment'}
           </span>
-          <span>{project.tipo}</span>
         </div>
 
-        {/* Metric badge */}
-        <div className="pf-metric-badge">
-          <span className="pf-metric-value" style={{ color: 'var(--accent)' }}>
-            {project.metric.value}
-          </span>
-          <span className="pf-metric-label">{project.metric.label}</span>
-        </div>
-      </div>
-
-      {/* ── Card body ── */}
-      <div className="pf-body">
-        
-        {/* Header (Título y Tecnologías juntas) */}
-        <div className="pf-card-header">
-          <div>
-            <h3 className="pf-title">{project.title}</h3>
-            <p className="pf-card-subtitle">{project.subtitle}</p>
+        {/* Skeleton de Carga */}
+        {!imgLoaded && (
+          <div className="absolute inset-0 bg-slate-900 animate-pulse flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full border-2 border-blue-500/20 border-t-blue-500 animate-spin" />
           </div>
-        </div>
+        )}
 
-        {/* Description */}
-        <p className="pf-desc">{project.description}</p>
+        {/* Imagen del Proyecto */}
+        <img
+          src={project.imagenUrl}
+          alt={project.title}
+          loading="lazy"
+          onLoad={() => setImgLoaded(true)}
+          className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 ${imgLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+        />
 
-        {/* Espaciador flexible para empujar los botones abajo */}
-        <div style={{ flexGrow: 1 }} />
-        <div className="pf-divider" />
-
-        {/* Actions */}
-        <div className="pf-actions">
-          {/* Solo se dibuja si no es mobile */}
-          {project.category !== 'mobile' && (
+        {/* Overlay hover para proyectos Web */}
+        {project.category !== 'mobile' && project.linkProyecto && (
+          <div className="hidden sm:flex absolute inset-0 z-10 bg-slate-950/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-center justify-center">
             <a
               href={project.linkProyecto}
               target="_blank"
               rel="noopener noreferrer"
-              className="pf-btn-ghost"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-slate-950 font-['Montserrat',sans-serif] text-xs font-bold uppercase tracking-wider shadow-xl shadow-black/40 hover:scale-105 active:scale-95 transition-transform"
             >
-              <span>Ver en vivo</span>
-              <IconArrow />
+              <span>Ver en Vivo</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+        )}
+
+        {/* Badge de Categoría (Inferior Izquierda) */}
+        <div className="absolute bottom-3 left-3 z-20 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/10 text-slate-300 text-[11px] font-['Montserrat',sans-serif] font-bold uppercase tracking-wide">
+          <span style={{ color: project.accentColor }}>
+            {project.category === 'mobile' ? (
+              <Smartphone size={14} />
+            ) : (
+              <Monitor size={14} />
+            )}
+          </span>
+          <span>{project.tipo}</span>
+        </div>
+
+        {/* Badge de Métrica de Éxito (Inferior Derecha) */}
+        <div className="absolute bottom-3 right-3 z-20 flex flex-col items-end px-3 py-1 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/10">
+          <span
+            className="font-['Montserrat',sans-serif] font-black text-sm leading-none tabular-nums"
+            style={{ color: project.accentColor }}
+          >
+            {project.metric.value}
+          </span>
+          <span className="font-['Inter',sans-serif] text-[9px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+            {project.metric.label}
+          </span>
+        </div>
+      </div>
+
+      {/* ─── Cuerpo de la Tarjeta ─── */}
+      <div className="p-6 sm:p-7 flex flex-col flex-1">
+
+        {/* Título y Subtítulo */}
+        <div className="mb-3">
+          <span
+            className="font-['Montserrat',sans-serif] text-xs font-bold uppercase tracking-wider block mb-1"
+            style={{ color: project.accentColor }}
+          >
+            {project.subtitle}
+          </span>
+          <h3 className="font-['Montserrat',sans-serif] font-extrabold text-2xl text-white tracking-tight group-hover:text-blue-400 transition-colors duration-200">
+            {project.title}
+          </h3>
+        </div>
+
+        {/* Descripción */}
+        <p className="font-['Inter',sans-serif] text-sm text-slate-400 leading-relaxed line-clamp-3">
+          {project.description}
+        </p>
+
+        {/* Separador inferior flexible */}
+        <div className="mt-auto pt-6 border-t border-slate-800/80 flex items-center justify-between gap-3 flex-wrap">
+
+          {/* Enlace Web en Vivo */}
+          {project.category !== 'mobile' && project.linkProyecto && (
+            <a
+              href={project.linkProyecto}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-['Montserrat',sans-serif] font-bold uppercase tracking-wider text-slate-300 hover:text-white px-3.5 py-2 rounded-xl border border-slate-700/70 hover:border-slate-500 hover:bg-slate-800/40 transition-all duration-200 group/link"
+            >
+              <span>Explorar Demo</span>
+              <ArrowRight size={14} className="transition-transform duration-200 group-hover/link:translate-x-1" />
             </a>
           )}
 
-          {/* Solo se dibuja si existe un link */}
+          {/* Enlace de Descarga APK */}
           {project.linkDescarga && (
             <a
               href={project.linkDescarga}
               download
-              className="pf-btn-ghost download"
+              className="inline-flex items-center gap-2 text-xs font-['Montserrat',sans-serif] font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 px-3.5 py-2 rounded-xl border border-emerald-500/30 hover:border-emerald-500/60 bg-emerald-500/10 hover:bg-emerald-500/15 transition-all duration-200 shadow-sm shadow-emerald-500/10"
             >
-              <IconDownload />
+              <Download size={14} />
               <span>Descargar APK</span>
             </a>
           )}
+
+          <div className="flex items-center gap-1.5 text-[11px] font-['Inter',sans-serif] text-slate-500 ml-auto">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span>Producción</span>
+          </div>
         </div>
+
       </div>
-    </div>
+    </article>
   );
 };
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// ─── Componente Principal ─────────────────────────────────────────────────────
 const PortfolioSection = () => {
   const [inView, setInView] = useState(false);
   const sectionRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold: 0.08 }
+      ([entry]) => {
+        if (entry.isIntersecting) setInView(true);
+      },
+      { threshold: 0.1 }
     );
+
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+    <section
+      id="portafolio"
+      ref={sectionRef}
+      className="relative bg-[#070E1E] py-24 sm:py-32 overflow-hidden border-t border-slate-800/60"
+    >
+      {/* ── Fondo Tecnológico con Radial Dots ── */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(#2563eb_1px,transparent_1px)] [background-size:38px_38px] opacity-15 [mask-image:radial-gradient(ellipse_75%_55%_at_50%_50%,#000_50%,transparent_100%)]" />
+        <div className="absolute top-1/4 -right-40 w-96 h-96 bg-blue-600/10 rounded-full blur-[130px]" />
+        <div className="absolute bottom-10 -left-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-[130px]" />
+      </div>
 
-        @keyframes pfFadeUp {
-          from { opacity: 0; transform: translateY(28px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pfLineGrow {
-          from { transform: scaleX(0); }
-          to   { transform: scaleX(1); }
-        }
-        @keyframes pfSkeleton {
-          0%   { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        /* ── Section ── */
-        .pf-section {
-          position: relative;
-          background: #070E1E;
-          padding: 120px 2rem;
-          overflow: hidden;
-        }
-
-        .pf-section::before {
-          content: ''; position: absolute; inset: 0;
-          background-image: radial-gradient(circle, rgba(37,99,235,0.12) 1px, transparent 1px);
-          background-size: 44px 44px;
-          mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
-          -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
-          pointer-events: none;
-        }
-
-        .pf-inner {
-          position: relative; z-index: 2; max-width: 1280px; margin: 0 auto;
-        }
-
-        /* ── Header ── */
-        .pf-header {
-          text-align: center; max-width: 700px; margin: 0 auto 72px;
-        }
-        .pf-eyebrow {
-          display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px;
-          animation: ${inView ? 'pfFadeUp 0.6s 0ms both' : 'none'};
-        }
-        .pf-eyebrow-line {
-          width: 32px; height: 2px; background: #2563EB; border-radius: 2px;
-          transform-origin: left; animation: ${inView ? 'pfLineGrow 0.5s 0.1s both' : 'none'};
-        }
-        .pf-eyebrow-text {
-          font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
-          color: #2563EB; letter-spacing: 0.1em; text-transform: uppercase;
-        }
-        .pf-h2 {
-          font-family: 'Montserrat', sans-serif; font-weight: 900;
-          font-size: clamp(1.875rem, 3.5vw, 2.75rem); line-height: 1.08;
-          letter-spacing: -0.04em; color: #fff; margin: 0 0 16px;
-          animation: ${inView ? 'pfFadeUp 0.6s 100ms both' : 'none'};
-        }
-        .pf-h2 .accent {
-          background: linear-gradient(135deg, #60a5fa 0%, #2563EB 60%, #818cf8 100%);
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-
-        /* Corregido el bug de la doble clase */
-        .pf-section-subtitle {
-          font-family: 'Inter', sans-serif; font-size: 1rem; color: #64748b;
-          line-height: 1.7; margin: 0; animation: ${inView ? 'pfFadeUp 0.6s 200ms both' : 'none'};
-        }
-
-        /* ── Grid ── */
-        .pf-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-
-        /* ── Card (Premium Glassmorphism Design) ── */
-        .pf-card {
-          position: relative;
-          background: linear-gradient(145deg, rgba(15,23,42,0.8), rgba(7,14,30,0.9));
-          backdrop-filter: blur(10px);
-          border-radius: 24px;
-          overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.06);
-          display: flex;
-          flex-direction: column;
-          transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), 
-                      box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), 
-                      border-color 0.4s ease;
-        }
-        .pf-card[data-inview="true"] { animation: pfFadeUp 0.6s both; }
-        
-        .pf-card:hover {
-          transform: translateY(-8px);
-          /* MENTOR TIP: Sombra mágica basada en la variable CSS --accent del proyecto */
-          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), 
-                      0 0 25px -10px var(--accent);
-          border-color: rgba(255,255,255,0.15);
-        }
-
-        /* Línea de color superior */
-        .pf-card::before {
-          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-          background: var(--accent); opacity: 0.8; z-index: 10;
-        }
-
-        /* ── Browser chrome ── */
-        .pf-chrome {
-          display: flex; align-items: center; gap: 8px; padding: 12px 16px;
-          background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.03);
-          position: absolute; top: 0; left: 0; right: 0; z-index: 5;
-        }
-        .pf-chrome-dots { display: flex; gap: 6px; }
-        .pf-chrome-dots div { width: 10px; height: 10px; border-radius: 50%; }
-
-        /* ── Image wrap ── */
-        .pf-img-wrap { position: relative; }
-        .pf-img-container {
-          position: relative; width: 100%; aspect-ratio: 16/10;
-          background: #0a1120; overflow: hidden;
-        }
-        .pf-img {
-          width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), filter 0.4s;
-        }
-        .pf-card:hover .pf-img { transform: scale(1.04); }
-
-        /* Skeleton loader */
-        .pf-img-skeleton { position: absolute; inset: 0; background: #0d1829; overflow: hidden; }
-        .pf-skeleton-shine {
-          position: absolute; inset: 0;
-          background: linear-gradient(90deg, transparent 0%, rgba(37,99,235,0.07) 50%, transparent 100%);
-          animation: pfSkeleton 1.5s infinite;
-        }
-
-        /* Hover overlay */
-        .pf-img-overlay {
-          position: absolute; inset: 0; background: rgba(7,14,30,0.6);
-          backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center;
-          transition: opacity 0.3s ease;
-        }
-        .pf-overlay-btn {
-          display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
-          background: #fff; color: #0F172A; border-radius: 12px;
-          font-family: 'Montserrat', sans-serif; font-size: 0.8125rem; font-weight: 800;
-          letter-spacing: 0.02em; text-decoration: none;
-          transition: transform 0.2s, box-shadow 0.2s;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        .pf-overlay-btn:hover { transform: scale(1.05); }
-
-        /* Badges flotantes sobre la imagen */
-        .pf-type-badge, .pf-metric-badge {
-          position: absolute; z-index: 10;
-          background: rgba(15,23,42,0.85); backdrop-filter: blur(12px);
-          border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        .pf-type-badge {
-          bottom: 16px; left: 16px; display: flex; align-items: center; gap: 6px;
-          padding: 6px 12px; font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
-          font-weight: 700; color: #cbd5e1; letter-spacing: 0.05em; text-transform: uppercase;
-        }
-        .pf-metric-badge {
-          top: 50px; right: 16px; display: flex; flex-direction: column; align-items: center;
-          padding: 8px 12px;
-        }
-        .pf-metric-value { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 900; line-height: 1; }
-        .pf-metric-label { font-family: 'Inter', sans-serif; font-size: 0.55rem; color: #94a3b8; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
-
-        /* ── Body ── */
-        .pf-body { padding: 1.75rem 2rem 2rem; display: flex; flex-direction: column; flex: 1; gap: 1rem; }
-        .pf-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .pf-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.35rem; color: #fff; letter-spacing: -0.03em; margin: 0 0 4px; }
-        
-        /* Subtítulo de tarjeta corregido */
-        .pf-card-subtitle { font-family: 'Inter', sans-serif; font-size: 0.8125rem; color: var(--accent); margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;}
-        
-        .pf-desc { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin: 0; }
-
-        /* Divider */
-        .pf-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 0.5rem 0; }
-
-        /* Actions (Botones Ghost) */
-        .pf-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        
-        .pf-btn-ghost {
-          display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px;
-          font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
-          color: #e2e8f0; text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase;
-          background: transparent; border: 1px solid rgba(255,255,255,0.15);
-          border-radius: 10px; transition: all 0.2s;
-        }
-        
-        .pf-btn-ghost:hover {
-          background: rgba(255,255,255,0.05);
-          border-color: var(--accent);
-          color: #fff;
-        }
-
-        .pf-btn-ghost.download { color: #10B981; border-color: rgba(16,185,129,0.3); }
-        .pf-btn-ghost.download:hover { background: rgba(16,185,129,0.1); border-color: #10B981; color: #fff;}
-
-        /* ── Bottom CTA ── */
-        .pf-bottom {
-          margin-top: 80px; text-align: center; display: flex; flex-direction: column;
-          align-items: center; gap: 20px; animation: ${inView ? 'pfFadeUp 0.6s 700ms both' : 'none'};
-        }
-        .pf-bottom-text { font-family: 'Inter', sans-serif; font-size: 1.125rem; color: #94a3b8; }
-        .pf-bottom-text strong { color: #fff; font-weight: 600; }
-        
-        .pf-bottom-cta {
-          display: inline-flex; align-items: center; gap: 8px; padding: 1rem 2.5rem;
-          background: #2563EB; color: #fff; border-radius: 12px;
-          font-family: 'Montserrat', sans-serif; font-size: 0.875rem; font-weight: 800;
-          letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
-          transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(37,99,235,0.4);
-        }
-        .pf-bottom-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,99,235,0.5); }
-
-        /* ── Responsive ── */
-        @media (max-width: 900px) {
-          .pf-grid { grid-template-columns: 1fr; }
-          .pf-section { padding: 80px 1.5rem; }
-        }
-      `}</style>
-
-      <section id="portafolio" className="pf-section" ref={sectionRef}>
-        <div className="pf-inner">
-
-          {/* Header */}
-          <div className="pf-header">
-            <div className="pf-eyebrow">
-              <div className="pf-eyebrow-line" />
-              <span className="pf-eyebrow-text">Portafolio</span>
-              <div className="pf-eyebrow-line" style={{ transformOrigin: 'right' }} />
-            </div>
-
-            <h2 className="pf-h2">
-              Casos de <span className="accent">éxito</span> y soluciones
-            </h2>
-
-            <p className="pf-section-subtitle">
-              Sistemas y plataformas que hemos desarrollado para transformar
-              la gestión empresarial y vida personal. Cada proyecto, una solución a medida.
-            </p>
+        {/* ── Cabecera de Sección ── */}
+        <div className="max-w-2xl mx-auto text-center mb-16 lg:mb-20">
+          <div
+            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 mb-4 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+            <span className="font-['Montserrat',sans-serif] text-xs font-bold uppercase tracking-widest text-blue-400">
+              Casos Reales de Éxito
+            </span>
           </div>
 
-          {/* Grid */}
-          <div className="pf-grid">
-            {PROJECTS.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                index={index}
-                inView={inView}
-              />
-            ))}
-          </div>
+          <h2
+            className={`font-['Montserrat',sans-serif] font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight transition-all duration-700 delay-100 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+          >
+            Sistemas que impulsan{' '}
+            <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-400">
+              negocios reales
+            </span>
+          </h2>
 
-          {/* Bottom CTA */}
-          <div className="pf-bottom">
-            <p className="pf-bottom-text">
-              ¿Tienes un proyecto en mente? <strong>Construyamos juntos tu solución.</strong>
-            </p>
-            <a href="#productos" className="pf-bottom-cta">
-              <span>Comprar mi Software</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
-          </div>
+          <p
+            className={`font-['Inter',sans-serif] text-base sm:text-lg text-slate-400 mt-4 leading-relaxed transition-all duration-700 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+          >
+            Software y plataformas cloud que hemos diseñado, optimizado y desplegado.
+            Desde aplicaciones móviles nativas hasta sistemas de control operativo.
+          </p>
         </div>
-      </section>
-    </>
+
+        {/* ── Grid de Proyectos ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {PROJECTS.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              inView={inView}
+            />
+          ))}
+        </div>
+
+        {/* ── CTA Inferior de Conversión ── */}
+        <div
+          className={`mt-20 p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800 text-center flex flex-col items-center gap-6 max-w-3xl mx-auto backdrop-blur-xl shadow-2xl transition-all duration-700 delay-500 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+        >
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 border border-blue-500/20 text-blue-400 text-xs font-bold font-['Montserrat',sans-serif] uppercase tracking-wider">
+            <TrendingUp size={14} />
+            <span>¿Tienes una idea específica?</span>
+          </div>
+
+          <h3 className="font-['Montserrat',sans-serif] font-extrabold text-2xl sm:text-3xl text-white tracking-tight">
+            Diseñamos la infraestructura ideal para tu negocio
+          </h3>
+
+          <p className="font-['Inter',sans-serif] text-sm sm:text-base text-slate-400 max-w-xl">
+            Cuéntanos los requerimientos de tu negocio y construiremos un sistema
+            rápido, seguro y adaptado a tu presupuesto.
+          </p>
+
+          <a
+            href="#contacto"
+            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-['Montserrat',sans-serif] text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-0.5 transition-all duration-300"
+          >
+            <span>Iniciar mi Proyecto</span>
+            <ArrowRight size={16} />
+          </a>
+        </div>
+
+      </div>
+    </section>
   );
 };
 

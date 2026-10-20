@@ -1,74 +1,46 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { ArrowRight, Sparkles, TrendingUp, RefreshCw, CheckCircle2, Terminal } from 'lucide-react';
 
-// ─── Sub-components ────────────────────────────────────────────────────────────
-
-const GlowOrb = ({ style }) => (
-  <div style={{
-    position: 'absolute',
-    borderRadius: '50%',
-    filter: 'blur(80px)',
-    pointerEvents: 'none',
-    ...style,
-  }} />
-);
-
-// Animated counter hook
+// Hook contador suave y aislado
 const useCounter = (target, duration = 1800, start = false) => {
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
     if (!start) return;
     let startTime = null;
+
     const step = (timestamp) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
       setCount(Math.floor(eased * target));
       if (progress < 1) requestAnimationFrame(step);
     };
+
     requestAnimationFrame(step);
   }, [start, target, duration]);
+
   return count;
 };
 
-const StatCard = ({ value, suffix, label, delay, animate }) => {
-  const num = useCounter(parseInt(value), 1600, animate);
+const StatItem = ({ value, suffix, label, animate }) => {
+  const num = useCounter(parseInt(value, 10), 1600, animate);
+
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '4px',
-      animation: animate ? `fadeUp 0.6s ${delay}ms both` : 'none',
-    }}>
-      <div style={{
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 800,
-        fontSize: '1.75rem',
-        color: '#fff',
-        lineHeight: 1,
-        letterSpacing: '-0.03em',
-      }}>
-        {animate ? num : value}
-        <span style={{ color: '#2563EB' }}>{suffix}</span>
+    <div className="flex flex-col">
+      <div className="font-['Montserrat'] font-black text-2xl lg:text-3xl text-white tracking-tight tabular-nums flex items-baseline">
+        <span>{animate ? num : value}</span>
+        <span className="text-blue-500 ml-0.5">{suffix}</span>
       </div>
-      <div style={{
-        fontFamily: "'Montserrat', sans-serif",
-        fontSize: '0.7rem',
-        fontWeight: 600,
-        color: '#64748b',
-        letterSpacing: '0.08em',
-        textTransform: 'uppercase',
-      }}>
+      <p className="font-['Montserrat'] text-[11px] font-semibold uppercase tracking-wider text-slate-400 mt-1">
         {label}
-      </div>
+      </p>
     </div>
   );
 };
 
-// ─── Main Component ─────────────────────────────────────────────────────────────
-
 const HeroSection = () => {
-  const [visible, setVisible] = React.useState(false);
-  const sectionRef = useRef(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 100);
@@ -76,602 +48,199 @@ const HeroSection = () => {
   }, []);
 
   const stats = [
-    { value: '5', suffix: '+', label: 'Proyectos entregados' },
-    { value: '95', suffix: '%', label: 'Clientes satisfechos' },
-    { value: '3', suffix: 'x', label: 'Más rápido que lo manual' },
+    { value: '5', suffix: '+', label: 'Sistemas en producción' },
+    { value: '98', suffix: '%', label: 'Satisfacción clientes' },
+    { value: '3', suffix: 'x', label: 'Aceleración operativa' },
   ];
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500&display=swap');
+    <section
+      id="inicio"
+      className="relative min-h-screen bg-[#070E1E] overflow-hidden flex items-center pt-32 pb-16 sm:pt-36 lg:pt-36 lg:pb-20"
+    >
+      {/* ─── FONDO AMBIENTAL: GRID + GLOW ORBS ─── */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Radial grid pattern */}
+        <div
+          className="absolute inset-0 bg-[radial-gradient(#2563eb_1px,transparent_1px)] [background-size:36px_36px] opacity-20 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_45%,#000_70%,transparent_100%)]"
+        />
 
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
+        {/* Glow Blue Superior Izquierdo */}
+        <div className="absolute -top-32 -left-32 w-96 lg:w-[600px] h-96 lg:h-[600px] bg-blue-600/15 rounded-full blur-[120px]" />
 
-        @keyframes scaleIn {
-          from { opacity: 0; transform: scale(0.96) translateY(12px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
-        }
+        {/* Glow Indigo Inferior Derecho */}
+        <div className="absolute -bottom-20 -right-20 w-80 lg:w-[500px] h-80 lg:h-[500px] bg-indigo-600/10 rounded-full blur-[140px]" />
+      </div>
 
-        @keyframes floatY {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
 
-        @keyframes gridMove {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(40px); }
-        }
+          {/* ─── COLUMNA IZQUIERDA: PITCH & ACCIÓN (7 Cols) ─── */}
+          <div className="lg:col-span-7 flex flex-col gap-6 text-left">
 
-        @keyframes badgePulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3); }
-          50% { box-shadow: 0 0 0 6px rgba(37, 99, 235, 0); }
-        }
-
-        @keyframes shimmer {
-          0% { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
-
-        @keyframes scanline {
-          0% { transform: translateY(-100%); opacity: 0; }
-          20% { opacity: 0.6; }
-          80% { opacity: 0.6; }
-          100% { transform: translateY(400%); opacity: 0; }
-        }
-
-        .hero-section {
-          position: relative;
-          background: #070E1E;
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          overflow: hidden;
-          padding: 100px 2rem 80px;
-        }
-
-        /* Dot grid background */
-        .hero-section::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image: radial-gradient(circle, rgba(37, 99, 235, 0.18) 1px, transparent 1px);
-          background-size: 40px 40px;
-          animation: gridMove 8s linear infinite alternate;
-          mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-          -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-          pointer-events: none;
-        }
-
-        /* Subtle noise overlay */
-        .hero-section::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-          opacity: 0.35;
-          pointer-events: none;
-        }
-
-        .hero-inner {
-          position: relative;
-          z-index: 2;
-          max-width: 1280px;
-          margin: 0 auto;
-          width: 100%;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 4rem;
-          align-items: center;
-        }
-
-        /* BADGE */
-        .authority-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 6px 14px 6px 8px;
-          border-radius: 100px;
-          background: rgba(37, 99, 235, 0.08);
-          border: 1px solid rgba(37, 99, 235, 0.25);
-          animation: ${visible ? 'fadeUp 0.6s 0ms both, badgePulse 3s 1s infinite' : 'none'};
-          cursor: default;
-          width: fit-content;
-        }
-
-        .badge-dot {
-          width: 22px;
-          height: 22px;
-          border-radius: 50%;
-          background: rgba(37, 99, 235, 0.15);
-          border: 1px solid rgba(37, 99, 235, 0.3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-
-        .badge-dot svg {
-          width: 12px;
-          height: 12px;
-        }
-
-        .badge-text {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #93b4fb;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-        }
-
-        /* HEADING */
-        .hero-h1 {
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 900;
-          font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-          line-height: 1.05;
-          letter-spacing: -0.04em;
-          color: #ffffff;
-          margin: 0;
-          animation: ${visible ? 'fadeUp 0.7s 100ms both' : 'none'};
-        }
-
-        .hero-h1 .accent {
-          background: linear-gradient(135deg, #60a5fa 0%, #2563EB 50%, #818cf8 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmer 4s linear infinite;
-        }
-
-        /* BODY */
-        .hero-body {
-          font-family: 'Inter', sans-serif;
-          font-size: 1.0625rem;
-          line-height: 1.75;
-          color: #6d82a0;
-          margin: 0;
-          animation: ${visible ? 'fadeUp 0.7s 200ms both' : 'none'};
-        }
-
-        .hero-body strong {
-          color: #cbd5e1;
-          font-weight: 600;
-        }
-
-        /* CTA BUTTONS */
-        .cta-group {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
-          animation: ${visible ? 'fadeUp 0.7s 300ms both' : 'none'};
-        }
-
-        .btn-primary {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          padding: 0.875rem 2rem;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.875rem;
-          font-weight: 700;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-          color: #fff;
-          background: #2563EB;
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 12px;
-          cursor: pointer;
-          overflow: hidden;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          box-shadow:
-            0 4px 24px rgba(37, 99, 235, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.12);
-        }
-
-        .btn-primary::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-        }
-
-        .btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow:
-            0 8px 32px rgba(37, 99, 235, 0.55),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        .btn-primary:active { transform: translateY(0); }
-
-        .btn-primary .arrow {
-          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .btn-primary:hover .arrow {
-          transform: translateX(4px);
-        }
-
-        /* STATS ROW */
-        .stats-row {
-          display: flex;
-          gap: 2rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid rgba(255,255,255,0.05);
-          animation: ${visible ? 'fadeUp 0.7s 500ms both' : 'none'};
-        }
-
-        .stat-divider {
-          width: 1px;
-          background: rgba(255,255,255,0.07);
-          align-self: stretch;
-        }
-
-        /* RIGHT COLUMN – MOCKUP */
-        .mockup-wrap {
-          position: relative;
-          animation: ${visible ? 'scaleIn 0.8s 200ms both' : 'none'};
-        }
-
-        .mockup-frame {
-          position: relative;
-          border-radius: 16px;
-          overflow: hidden;
-          border: 1px solid rgba(37, 99, 235, 0.2);
-          box-shadow:
-            0 0 0 1px rgba(255,255,255,0.04),
-            0 24px 80px rgba(0, 0, 0, 0.6),
-            0 0 60px rgba(37, 99, 235, 0.12);
-          animation: floatY 6s ease-in-out infinite;
-          background: #0d1829;
-        }
-
-        /* Browser chrome top bar */
-        .mockup-chrome {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 10px 14px;
-          background: #0a1120;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .chrome-dot {
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-        }
-
-        .chrome-urlbar {
-          flex: 1;
-          margin: 0 12px;
-          height: 20px;
-          background: rgba(255,255,255,0.04);
-          border-radius: 4px;
-          border: 1px solid rgba(255,255,255,0.06);
-          display: flex;
-          align-items: center;
-          padding: 0 8px;
-          gap: 5px;
-        }
-
-        .chrome-url-text {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          color: #4a5568;
-        }
-
-        /* Scanline effect */
-        .scanline {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          overflow: hidden;
-          border-radius: inherit;
-        }
-
-        .scanline::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 3px;
-          background: linear-gradient(180deg, transparent, rgba(37, 99, 235, 0.4), transparent);
-          animation: scanline 4s ease-in-out infinite;
-          animation-delay: 1s;
-        }
-
-        /* Decorative corner brackets */
-        .corner-bracket {
-          position: absolute;
-          width: 20px;
-          height: 20px;
-          border-color: #2563EB;
-          border-style: solid;
-          opacity: 0.5;
-        }
-
-        .corner-bracket.tl { top: -6px; left: -6px; border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
-        .corner-bracket.tr { top: -6px; right: -6px; border-width: 2px 2px 0 0; border-radius: 0 4px 0 0; }
-        .corner-bracket.bl { bottom: -6px; left: -6px; border-width: 0 0 2px 2px; border-radius: 0 0 0 4px; }
-        .corner-bracket.br { bottom: -6px; right: -6px; border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
-
-        /* Floating metric cards */
-        .metric-card {
-          position: absolute;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 8px 12px;
-          background: rgba(7, 14, 30, 0.9);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(37, 99, 235, 0.2);
-          border-radius: 10px;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-          z-index: 10;
-        }
-
-        .metric-card.top-left {
-          top: 18%;
-          left: -16%;
-          animation: floatY 5s ease-in-out infinite;
-          animation-delay: 0.5s;
-        }
-
-        .metric-card.bottom-right {
-          bottom: 12%;
-          right: -14%;
-          animation: floatY 7s ease-in-out infinite;
-          animation-delay: 1.2s;
-        }
-
-        .metric-icon {
-          width: 28px;
-          height: 28px;
-          border-radius: 7px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-
-        .metric-value {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.8125rem;
-          font-weight: 800;
-          color: #fff;
-          line-height: 1;
-        }
-
-        .metric-label {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          color: #64748b;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          margin-top: 2px;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-          .hero-inner {
-            grid-template-columns: 1fr;
-            gap: 3rem;
-          }
-
-          .mockup-wrap {
-            max-width: 560px;
-            margin: 0 auto;
-            width: 100%;
-          }
-
-          .metric-card.top-left { left: -8px; top: -12px; }
-          .metric-card.bottom-right { right: -8px; bottom: -12px; }
-
-          .stats-row {
-            gap: 1.5rem;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .cta-group { flex-direction: column; }
-          .btn-primary { width: 100%; justify-content: center; }
-        }
-      `}</style>
-
-      <section className="hero-section" ref={sectionRef}>
-        {/* Ambient glow orbs */}
-        <GlowOrb style={{
-          width: '600px', height: '600px',
-          top: '-10%', left: '-15%',
-          background: 'radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)',
-        }} />
-        <GlowOrb style={{
-          width: '400px', height: '400px',
-          bottom: '5%', right: '5%',
-          background: 'radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)',
-        }} />
-
-        <div className="hero-inner">
-          {/* ── LEFT COLUMN ── */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-
-            {/* Authority Badge */}
-            <div className="authority-badge">
-              <div className="badge-dot">
-                <svg viewBox="0 0 12 12" fill="none">
-                  <path d="M6 1L7.5 4.5L11 5L8.5 7.5L9 11L6 9.5L3 11L3.5 7.5L1 5L4.5 4.5L6 1Z"
-                    fill="#2563EB" />
-                </svg>
-              </div>
-              <span className="badge-text">Agencia de Software · Neiva, Huila</span>
+            {/* Badge de autoridad */}
+            <div className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 w-fit backdrop-blur-md shadow-sm shadow-blue-500/10 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}>
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+              </span>
+              <span className="font-['Montserrat'] text-xs font-bold uppercase tracking-wider text-blue-300">
+                Software · Neiva, Huila
+              </span>
             </div>
 
-            {/* H1 */}
-            <h1 className="hero-h1">
-              Automatizamos la <span className="accent">gestión</span> con software a tu medida
+            {/* Título Principal */}
+            <h1 className={`font-['Montserrat'] font-black text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-[1.08] transition-all duration-700 delay-100 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}>
+              Automatizamos tu gestión con{' '}
+              <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-600 to-blue-400 bg-[length:200%_auto] animate-gradient-text">
+                software a tu medida
+              </span>
+
             </h1>
 
-            {/* Body */}
-            <p className="hero-body">
-              Deja de perder tiempo en procesos manuales y hojas de cálculo. En{' '}
-              <strong>Nexo Digital</strong> construimos plataformas, sistemas embebidos
-              y herramientas de automatización que centralizan tu operación y aceleran
-              tu crecimiento <strong>comercial y personal</strong>
+            {/* Párrafo Descriptivo */}
+            <p className={`font-['Inter',sans-serif] text-base sm:text-lg text-slate-300/85 leading-relaxed max-w-2xl transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}>
+              Elimina los cuellos de botella y los errores de hojas de cálculo. En{' '}
+              <strong className="text-white font-semibold">Nexo Digital</strong> diseñamos arquitecturas web,
+              móviles y plataformas cloud escalables que centralizan tus ventas, inventarios y clientes en un solo lugar.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="cta-group">
-              <a href="#productos" className="btn-primary" style={{ textDecoration: 'none' }}>
-                <span>¡Compra tu software!</span>
-                <svg className="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M1 8H15M8 1L15 8L8 15" stroke="currentColor" strokeWidth="1.75"
-                    strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+            {/* Grupo de Acciones (CTAs) */}
+            <div className={`flex flex-wrap items-center gap-4 pt-2 transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}>
+              <a
+                href="#productos"
+                className="group relative inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-['Montserrat'] text-xs sm:text-sm font-bold uppercase tracking-wider shadow-[0_0_25px_rgba(37,99,235,0.45)] hover:shadow-[0_0_35px_rgba(37,99,235,0.7)] transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <span>Explorar Soluciones</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+              </a>
+
+              <a
+                href="#demo"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900/60 hover:bg-slate-800 text-slate-200 font-['Montserrat'] text-xs sm:text-sm font-semibold uppercase tracking-wider border border-slate-700/80 hover:border-slate-500 transition-all duration-200 backdrop-blur-sm"
+              >
+                <span>Ver Demo en Vivo</span>
               </a>
             </div>
 
-            {/* Stats */}
-            <div className="stats-row">
-              {stats.map((s, i) => (
-                <React.Fragment key={i}>
-                  {i > 0 && <div className="stat-divider" />}
-                  <StatCard {...s} delay={600 + i * 100} animate={visible} />
-                </React.Fragment>
+            {/* Métricas / Stats de Confianza */}
+            <div className={`grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 max-w-lg transition-all duration-700 delay-400 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}>
+              {stats.map((s, idx) => (
+                <StatItem key={idx} {...s} animate={visible} />
               ))}
             </div>
+
           </div>
 
-          {/* ── RIGHT COLUMN: MOCKUP ── */}
-          <div className="mockup-wrap">
-            {/* Corner brackets */}
-            <div className="corner-bracket tl" />
-            <div className="corner-bracket tr" />
-            <div className="corner-bracket bl" />
-            <div className="corner-bracket br" />
+          {/* ─── COLUMNA DERECHA: MOCKUP INTERACTIVO (5 Cols) ─── */}
+          <div className="lg:col-span-5 relative mt-6 lg:mt-0 [perspective:1000px]">
 
-            {/* Floating metric cards */}
-            <div className="metric-card top-left">
-              <div className="metric-icon" style={{ background: 'rgba(16,185,129,0.12)' }}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M1 10L5 6L8 9L13 3" stroke="#10B981" strokeWidth="1.75"
-                    strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+            {/* Tarjeta Flotante 1: Métrica Superior */}
+            <div className="absolute -top-6 -left-6 z-20 flex items-center gap-3 p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/30 backdrop-blur-xl shadow-2xl shadow-black/80 animate-[bounce_4s_infinite_ease-in-out]">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/15 flex items-center justify-center text-emerald-400">
+                <TrendingUp size={18} />
               </div>
               <div>
-                <div className="metric-value">↑ 340%</div>
-                <div className="metric-label">Eficiencia operativa</div>
+                <div className="font-['Montserrat'] font-black text-sm text-white">+340%</div>
+                <div className="font-['Inter',sans-serif] text-[10px] uppercase tracking-wider text-slate-400">
+                  Eficiencia Operativa
+                </div>
               </div>
             </div>
 
-            <div className="metric-card bottom-right">
-              <div className="metric-icon" style={{ background: 'rgba(37,99,235,0.12)' }}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <circle cx="7" cy="7" r="5.5" stroke="#2563EB" strokeWidth="1.5" />
-                  <path d="M7 4V7L9 9" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
+            {/* Tarjeta Flotante 2: Métrica Inferior */}
+            <div className="absolute -bottom-6 -right-6 z-20 flex items-center gap-3 p-3.5 rounded-2xl bg-slate-900/90 border border-blue-500/30 backdrop-blur-xl shadow-2xl shadow-black/80 animate-[bounce_5s_infinite_ease-in-out_delay-1000]">
+              <div className="w-9 h-9 rounded-xl bg-blue-500/15 flex items-center justify-center text-blue-400">
+                <RefreshCw size={18} className="animate-spin [animation-duration:8s]" />
               </div>
               <div>
-                <div className="metric-value">Tiempo real</div>
-                <div className="metric-label">Datos sincronizados</div>
+                <div className="font-['Montserrat'] font-black text-sm text-white">Sincronizado</div>
+                <div className="font-['Inter',sans-serif] text-[10px] uppercase tracking-wider text-slate-400">
+                  Cloud en Tiempo Real
+                </div>
               </div>
             </div>
 
-            {/* Mockup frame with browser chrome */}
-            <div className="mockup-frame">
-              {/* Browser chrome */}
-              <div className="mockup-chrome">
-                <div className="chrome-dot" style={{ background: '#ff5f57' }} />
-                <div className="chrome-dot" style={{ background: '#febc2e' }} />
-                <div className="chrome-dot" style={{ background: '#28c840' }} />
-                <div className="chrome-urlbar">
-                  <svg width="8" height="9" viewBox="0 0 8 9" fill="none">
-                    <path d="M1 4H7M4 1L7 4L4 7" stroke="#4a5568" strokeWidth="1" strokeLinecap="round" />
-                  </svg>
-                  <span className="chrome-url-text">app.nexodigital.co/dashboard</span>
+            {/* Frame de la Ventana / Dashboard */}
+            <div className="relative rounded-2xl border border-blue-500/25 bg-[#0A1224]/90 p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(37,99,235,0.15)] group transition-transform duration-500 hover:rotate-1 hover:scale-[1.01]">
+
+              {/* Browser Chrome Header */}
+              <div className="flex items-center gap-2 px-3 py-2.5 bg-[#060B18] rounded-t-xl border-b border-slate-800/80">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                </div>
+
+                {/* URL Bar */}
+                <div className="flex-1 ml-4 flex items-center gap-2 bg-slate-900/80 border border-slate-800 rounded-md px-2.5 py-1 text-[11px] text-slate-400 font-mono">
+                  <span className="text-blue-400">https://</span>
+                  <span>app.nexodigital.co</span>
                 </div>
               </div>
 
-              {/* Dashboard image placeholder (replace src with your actual image) */}
-              <div style={{
-                width: '100%',
-                aspectRatio: '16/10',
-                background: 'linear-gradient(135deg, #0d1829 0%, #0f2044 50%, #0d1829 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                overflow: 'hidden',
-              }}>
-                {/* Placeholder grid lines */}
-                <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.08 }}>
-                  <defs>
-                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2563EB" strokeWidth="0.5" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#grid)" />
-                </svg>
+              {/* Área de Visualización del Dashboard */}
+              <div className="relative aspect-[16/10] bg-gradient-to-br from-[#0c162d] to-[#070d1b] rounded-b-xl overflow-hidden flex items-center justify-center">
 
-                {/* Replace this div with your actual <img> tag */}
+                {/* Imagen del Dashboard */}
                 <img
                   src="assets/Dashboard.png"
-                  alt="Dashboard Nexo Digital"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', position: 'absolute', inset: 0 }}
-                  onError={(e) => { e.target.style.display = 'none'; }}
+                  alt="Vista previa del Dashboard"
+                  className="w-full h-full object-cover relative z-10 transition-transform duration-700 group-hover:scale-105"
+                  onError={(e) => {
+                    // Si no encuentra la imagen local, muestra un placeholder de alta fidelidad
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.nextSibling.style.display = 'flex';
+                  }}
                 />
 
-                {/* Fallback placeholder text */}
-                <div style={{
-                  position: 'relative', zIndex: 1,
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
-                }}>
-                  <div style={{
-                    width: '40px', height: '40px', borderRadius: '10px',
-                    border: '1px solid rgba(37,99,235,0.4)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: 'rgba(37,99,235,0.1)',
-                  }}>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <rect x="2" y="2" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.6" />
-                      <rect x="11" y="2" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.4" />
-                      <rect x="2" y="11" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.4" />
-                      <rect x="11" y="11" width="7" height="7" rx="1.5" fill="#2563EB" opacity="0.3" />
-                    </svg>
+                {/* Fallback Mockup UI si no carga la imagen */}
+                <div className="hidden absolute inset-0 z-0 p-5 flex-col justify-between">
+                  <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
+                    <div className="flex items-center gap-2">
+                      <Terminal className="text-blue-400" size={16} />
+                      <span className="text-xs font-semibold text-slate-300">Consola NexoSync</span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                      v2.4 Online
+                    </span>
                   </div>
-                  <span style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '0.6875rem', color: 'rgba(255,255,255,0.2)',
-                    letterSpacing: '0.08em', textTransform: 'uppercase',
-                  }}>
-                    Dashboard Preview
-                  </span>
+
+                  <div className="grid grid-cols-2 gap-3 my-auto">
+                    <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800">
+                      <div className="text-[10px] uppercase text-slate-400 font-bold">Ventas Mes</div>
+                      <div className="text-lg font-black text-white mt-1">$ 14,850,000</div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800">
+                      <div className="text-[10px] uppercase text-slate-400 font-bold">Órdenes Activas</div>
+                      <div className="text-lg font-black text-blue-400 mt-1">128 pedidos</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                    <CheckCircle2 size={13} className="text-emerald-400" />
+                    <span>PostgreSQL & Cloudflare R2 Conectados</span>
+                  </div>
                 </div>
+
+                {/* Scanline interactivo */}
+                <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-blue-500/[0.04] to-transparent bg-[length:100%_8px]" />
+
+                {/* Brillo inferior reflectante */}
+                <div className="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-t from-blue-600/10 to-transparent pointer-events-none" />
               </div>
-
-              {/* Scanline effect */}
-              <div className="scanline" />
-
-              {/* Bottom glow reflection */}
-              <div style={{
-                position: 'absolute', bottom: 0, left: 0, right: 0,
-                height: '40%',
-                background: 'linear-gradient(to top, rgba(37,99,235,0.06), transparent)',
-                pointerEvents: 'none',
-              }} />
             </div>
+
           </div>
+
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 
